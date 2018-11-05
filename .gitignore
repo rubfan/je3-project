@@ -10,3 +10,16 @@ buildNumber.properties
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ IDEA #
+*.iml
+.idea/**
+
+# Eclipse
+.settings
+.classpath
+.project
+
+.DS_Store
+
+src/main/resources/config/db.properties
