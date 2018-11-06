@@ -9,8 +9,8 @@ public class RoomEntity implements Serializable {
     private Integer id;
     private String name;
     private String description;
-
-    public RoomEntity() {}
+    private String account1Name;
+    private String account2Name;
 
     public Integer getId() {
         return id;
@@ -34,6 +34,22 @@ public class RoomEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getAccount1Name() {
+        return account1Name;
+    }
+
+    public void setAccount2Name(String name) {
+        this.account1Name = name;
+    }
+
+    public String getAccount2Name() {
+        return account2Name;
+    }
+
+    public void setAccount1Name(String name) {
+        this.account1Name = name;
     }
 
     @Override

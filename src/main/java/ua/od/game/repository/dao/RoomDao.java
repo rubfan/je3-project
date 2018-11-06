@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface RoomDao {
     List<RoomEntity> getRoomList();
-    void joinRoom(Integer roomId, Integer accountId);
-    void leaveRoom(Integer roomId, Integer accountId);
+    Boolean joinRoom(Integer roomId, Integer accountId);
+    Boolean leaveRoom(Integer roomId, Integer accountId);
 }

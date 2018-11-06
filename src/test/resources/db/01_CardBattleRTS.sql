@@ -15,7 +15,7 @@ CREATE TABLE `Account` (
 
 CREATE TABLE `Room` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-	`name` varchar(64) NOT NULL,
+	`name` varchar(64) NOT NULL UNIQUE,
 	`description` varchar(128) NOT NULL,
 	`account_1_id` INT,
 	`account_2_id` INT,
