@@ -5,12 +5,11 @@ import org.junit.Test;
 import ua.od.game.model.UserEntity;
 import ua.od.game.repository.dao.DbTest;
 import ua.od.game.repository.dao.UserDao;
+import java.nio.charset.Charset;
+import java.util.Random;
+import java.util.UUID;
+import static org.junit.Assert.*;
 
-import static org.junit.Assert.assertEquals;
-
-/**
- * @author ruslan.gramatic
- */
 public class UserDaoImplTest extends DbTest {
     UserDao userDao;
 
@@ -20,22 +19,49 @@ public class UserDaoImplTest extends DbTest {
     }
 
     @Test
-    public void loginUserTest() {
-        UserEntity user = new UserEntity() {{
-            setName("u1");
-            setPassword("u1");
+    public void testCreateUser() {
+        String token,name;
+        byte[] array;
+        UserEntity user;
+
+        token = UUID.randomUUID().toString();
+        array = new byte[7];
+        new Random().nextBytes(array);
+        name = new String(array, Charset.forName("UTF-8"));
+        user = new UserEntity() {{
+            setName(name);
+            setPassword("12345");
+            setToken(token);
         }};
-        String token = userDao.loginUser(user);
-        assertEquals("11111", token);
+        assertEquals(token,userDao.createNewUser(user));
+        assertNotEquals(token,userDao.createNewUser(user));
     }
 
     @Test
-    public void logoutUserTest() {
+    public void testUserLogin() {
+        String token;
+        UserEntity user;
+
+        token = UUID.randomUUID().toString();
+        user = new UserEntity() {{
+            setName("ramzes");
+            setPassword("12345");
+            setToken(token);
+        }};
+        assertEquals(token,userDao.loginUser(user));
+        user.setPassword("1234");
+        assertNotEquals(token,userDao.loginUser(user));
     }
 
-    public void createNewUserTest() {
+    @Test
+    public void testLogoutUser() {
+        String token = "1234";
+        assertFalse(userDao.logoutUser(token));
     }
 
-    public void getUserByTokenTest() {
+    @Test
+    public void testGetUserByToken() {
+        String token = "1234";
+        assertNull(userDao.getUserByToken(token));
     }
 }
