@@ -39,7 +39,7 @@ public class RoomDaoImplTest extends DbTest {
     }
     @Test
     public void enterRoomTest1() {
-        System.out.println(roomDao.joinRoom(443, 7).toString());
+        System.out.println(roomDao.joinRoom(443, 7));
     }
 
     @Test
@@ -74,7 +74,10 @@ public class RoomDaoImplTest extends DbTest {
         String PASS = "qwerty";
         try {
             Connection conn = DriverManager.getConnection(URL, USER, PASS);
-            System.out.println(conn.createStatement().executeUpdate("UPDATE room SET account_1_id = CASE WHEN account_1_id IS NULL THEN 9 ELSE account_1_id END, account_2_id = CASE WHEN account_1_id IS NOT NULL AND account_2_id IS NULL AND account_1_id <> 9  THEN 9 ELSE account_2_id END WHERE id = 443"));
+            System.out.println(conn.createStatement()
+                    .executeUpdate("UPDATE room SET account_1_id = CASE WHEN account_1_id IS NULL THEN 7 ELSE account_1_id END, " +
+                            "account_2_id = CASE WHEN account_1_id IS NOT NULL AND account_2_id IS NULL AND account_1_id <> 7  THEN 7 " +
+                            "ELSE account_2_id END WHERE id = 443"));
         } catch (SQLException e) {
             e.printStackTrace();
         }

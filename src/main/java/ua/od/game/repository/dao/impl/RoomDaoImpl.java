@@ -41,6 +41,7 @@ public class RoomDaoImpl implements RoomDao {
 
     private final String GET_ROOM_LIST_QUERY = "SELECT * FROM room";
     private final String CHECK_ROOM_IS_FULL_QUERY = "select account_1_id, account_2_id from room where id = ?";
+    private final String GET_USER_NAME_BY_ACCOUNT_ID = "select user.name from account join user on account.user_id = user.id where account.id = ?";
 
     public List<RoomEntity> getRoomList() {
         return SqlHelper.prepareStatement(GET_ROOM_LIST_QUERY, statementForRoomList -> {
@@ -100,4 +101,5 @@ public class RoomDaoImpl implements RoomDao {
                     : false;
        });
     }
+
 }
