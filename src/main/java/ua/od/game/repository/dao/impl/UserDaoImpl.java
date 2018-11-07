@@ -19,8 +19,8 @@ public class UserDaoImpl implements UserDao {
         });
         if(countUser > 0) {
             try {
-                throw new Error("This user already exists!!!!");
-            } catch (Error e) {
+                throw new Exception("This user already exists!!!!");
+            } catch (Exception e) {
                 System.out.println(e.toString());
                 return "";
             }
@@ -52,8 +52,8 @@ public class UserDaoImpl implements UserDao {
         });
         if(token.isEmpty()) {
             try {
-                throw new Error("This user does not exists!!!!");
-            } catch (Error e) {
+                throw new Exception("This user does not exists!!!!");
+            } catch (Exception e) {
                 System.out.println(e.toString());
                 return "";
             }
@@ -71,8 +71,8 @@ public class UserDaoImpl implements UserDao {
         });
         if(!logout) {
             try {
-                throw new Error("This token is wrong!!!!");
-            } catch (Error e) {
+                throw new Exception("This token is wrong!!!!");
+            } catch (Exception e) {
                 System.out.println(e.toString());
             }
         }
@@ -95,18 +95,11 @@ public class UserDaoImpl implements UserDao {
             });
         if(user == null) {
             try {
-                throw new Error("Wrong token!!!!!");
-            } catch (Error e) {
+                throw new Exception("Wrong token!!!!!");
+            } catch (Exception e) {
                 System.out.println(e.toString());
             }
         }
        return user;
   }
-}
-
-class Error extends Exception {
-
-    public Error(String s) {
-        super(s);
-    }
 }
