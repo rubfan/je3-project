@@ -12,6 +12,7 @@ import ua.od.game.service.RoomService;
 import ua.od.game.service.UserService;
 import ua.od.game.service.impl.RoomServiceImpl;
 import ua.od.game.service.impl.UserServiceImpl;
+
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -38,25 +39,24 @@ import java.util.EnumSet;
  */
 public class AppContextConfig {
     public HandlerList getHandlersConfig() {
-        ServletContextHandler servletsHandler = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
-        servletsHandler.setContextPath("/");
-        servletsHandler.addServlet(new ServletHolder(new ServletContainer(getResourceConfig())), "/rest/*");
-
-        FilterHolder holder = new FilterHolder(new CrossOriginFilter());
-        holder.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,POST,HEAD,OPTIONS");
-        servletsHandler.addFilter(holder, "/rest/*", EnumSet.of(DispatcherType.REQUEST));
-
-        ResourceHandler resourceHandler = getResourceHandler();
-        resourceHandler.setWelcomeFiles(new String[]{"login.html"});
-        resourceHandler.setBaseResource(Resource.newClassPathResource("/webapp"));
-
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{resourceHandler, servletsHandler});
+        handlers.addHandler(getWebResourceHandler());
+        handlers.addHandler(getServletHandler());
         return handlers;
     }
 
-    private ResourceHandler getResourceHandler(){
-        return new ResourceHandler(){
+    private Handler getServletHandler() {
+        ServletContextHandler servletsHandler = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
+        servletsHandler.setContextPath("/");
+        servletsHandler.addServlet(new ServletHolder(new ServletContainer(getResourceConfig())), "/rest/*");
+        FilterHolder holder = new FilterHolder(new CrossOriginFilter());
+        holder.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,POST,HEAD,OPTIONS");
+        servletsHandler.addFilter(holder, "/rest/*", EnumSet.of(DispatcherType.REQUEST));
+        return servletsHandler;
+    }
+
+    private Handler getWebResourceHandler() {
+        ResourceHandler resourceHandler = new ResourceHandler() {
             @Override
             public void handle(String target, Request baseRequest, HttpServletRequest request,
                                HttpServletResponse response) throws IOException, ServletException {
@@ -80,6 +80,9 @@ public class AppContextConfig {
                 super.handle(target, baseRequest, request, response);
             }
         };
+        resourceHandler.setWelcomeFiles(new String[]{"login.html"});
+        resourceHandler.setBaseResource(Resource.newClassPathResource("/webapp"));
+        return resourceHandler;
     }
 
     private ResourceConfig getResourceConfig() {

@@ -199,3 +199,10 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
 });
+
+
+//=============================
+//============START============
+//=============================
+playMusic();
+refreshButtonsStatus();

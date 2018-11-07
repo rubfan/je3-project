@@ -81,27 +81,29 @@ const endpoints = {
 };
 
 function restRequest(method, url, callback, body) {
+    console.log("restRequest method: " + method + " url: " + url + (body ? " body:" : ""));
+    if (body) console.log(body);
     var httpRequest = new XMLHttpRequest();
-    httpRequest.open(method, url, true);
-    httpRequest.setRequestHeader("Content-type", "application/json");
-    httpRequest.setRequestHeader('Accept', 'application/json');
-    httpRequest.onreadystatechange = () => {
+    httpRequest.onreadystatechange = function() {
+        console.log("status: " + this.status);
         if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
             if(callback && this.responseText) {
-                callback(JSON.parse(this.responseText));
+                console.log("executed callback with data object: " + callback.name);
+                callback(this.responseText);
+                //callback(JSON.parse(this.responseText));
             } else if (callback) {
+                console.log("executed callback: " + callback.name);
                 callback();
             }
-        } else {
-            console.log("status: " + this.status);
-            console.log(this.responseText);
         }
     };
-    if(body) console.log(body);
+    httpRequest.open(method, url, true);
+    httpRequest.setRequestHeader('Accept', 'application/json');
+    httpRequest.setRequestHeader("Content-type", "application/json");
     switch(method) {
         case METHOD_GET: httpRequest.send(null); break;
-        case METHOD_POST: httpRequest.send(JSON.stringify(requestBody)); break;
-        case METHOD_PUT: httpRequest.send(JSON.stringify(requestBody)); break;
+        case METHOD_POST: httpRequest.send(JSON.stringify(body)); break;
+        case METHOD_PUT: httpRequest.send(JSON.stringify(body)); break;
         case METHOD_DELETE: httpRequest.send(null); break;
     }
 }
