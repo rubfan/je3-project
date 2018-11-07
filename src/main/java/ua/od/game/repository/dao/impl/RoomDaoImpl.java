@@ -25,8 +25,6 @@ public class RoomDaoImpl implements RoomDao {
             .append("WHERE id = ?")
             .toString();
 
-    private final String JOIN_ROOM_QUERY_ACCOUNT_QUERY = "UPDATE account SET room_id = ? WHERE id = ?";
-
     private final String LEAVE_ROOM_QUERY_ROOM_QUERY = new StringBuilder()
             .append("UPDATE room ")
             .append("SET user_1_id = CASE WHEN user_1_id = ? ")
@@ -41,7 +39,17 @@ public class RoomDaoImpl implements RoomDao {
     private final String GET_ROOM_LIST_QUERY = "SELECT * FROM room";
     private final String CHECK_ROOM_IS_FULL_QUERY = "select user_1_id, user_2_id from room where id = ?";
     //TODO
-    //private final String GET_USER_NAME_BY_ACCOUNT_ID = "select user.name from account join user on account.user_id = user.id where account.id = ?";
+    private final String GET_USER_NAME_BY_ID = "select user.name from room join user on room.user_?_id = user.id where room.id = ?";
+
+    private String getUserNameById(Integer userNumber, Integer roomId) {
+        return SqlHelper.prepareStatement(GET_USER_NAME_BY_ID, statementForNameById -> {
+            statementForNameById.setInt(1, userNumber);
+            statementForNameById.setInt(2, roomId);
+            ResultSet resultSet = statementForNameById.executeQuery();
+            resultSet.next();
+            return resultSet.getString("name");
+        });
+    }
 
     public List<RoomEntity> getRoomList() {
         return SqlHelper.prepareStatement(GET_ROOM_LIST_QUERY, statementForRoomList -> {
@@ -52,10 +60,8 @@ public class RoomDaoImpl implements RoomDao {
                     setId(roomsResultSet.getInt("id"));
                     setName(roomsResultSet.getString("name"));
                     setDescription(roomsResultSet.getString("description"));
-                    //TODO Create Methods to get Name by id in UserDao and inject them here
-                    setAccount1Name(roomsResultSet.getString("user_1_id"));
-                    setAccount2Name(roomsResultSet.getString("user_1_id"));
-                    //TODO end
+                    setUser1Name(getUserNameById(1, roomsResultSet.getInt("id")));
+                    setUser2Name(getUserNameById(2, roomsResultSet.getInt("id")));
                 }});
             }
             return rooms;
