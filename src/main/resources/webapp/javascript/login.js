@@ -8,7 +8,7 @@ function login() {
     });
 }
 
-function createNewAccount() {
+function createNewUser() {
     endpoints.UserController.createNewUser(refreshButtonsStatus, {
         name: document.getElementById('name').value,
         password: document.getElementById('password').value

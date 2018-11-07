@@ -28,11 +28,11 @@ public class RoomDaoImpl implements RoomDao {
         });
     }
 
-    public void joinRoom(Integer roomId, Integer accountId) {
+    public void joinRoom(Integer roomId, Integer userId) {
 
     }
 
-    public void leaveRoom(Integer roomId, Integer accountId) {
+    public void leaveRoom(Integer roomId, Integer userId) {
 
     }
 }

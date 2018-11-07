@@ -1,7 +1,7 @@
 /**
  * @author ruslan.gramatic
  */
-var currentAccount = {};
+var currentUser = {};
 
 function getView(viewId) {
     return document.getElementById(viewId).innerHTML;

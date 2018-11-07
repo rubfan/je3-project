@@ -32,10 +32,6 @@ public class UserDaoImpl implements UserDao {
             pstmt.setString(3, user.getToken());
             return pstmt.executeUpdate();
         });
-        SqlHelper.prepareStatement("INSERT INTO Account(user_id) select id from User where name = ?", pstmt -> {
-            pstmt.setString(1, user.getName());
-            return pstmt.executeUpdate();
-        });
         return token;
     }
 
@@ -102,4 +98,9 @@ public class UserDaoImpl implements UserDao {
         }
        return user;
   }
+
+    @Override
+    public UserEntity getUserById(Integer userId) {
+        return null;
+    }
 }

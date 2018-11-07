@@ -7,4 +7,5 @@ public interface UserDao {
     boolean logoutUser(String token);
     String createNewUser(UserEntity user);
     UserEntity getUserByToken(String token);
+    UserEntity getUserById(Integer userId);
 }
