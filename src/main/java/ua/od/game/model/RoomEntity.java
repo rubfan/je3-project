@@ -51,13 +51,4 @@ public class RoomEntity implements Serializable {
     public void setUser2Name(String name) {
         this.user2Name = name;
     }
-
-    @Override
-    public String toString() {
-        return "RoomEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description +
-                '}';
-    }
 }

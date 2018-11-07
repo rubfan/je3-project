@@ -38,7 +38,6 @@ public class RoomDaoImpl implements RoomDao {
 
     private final String GET_ROOM_LIST_QUERY = "SELECT * FROM room";
     private final String CHECK_ROOM_IS_FULL_QUERY = "select user_1_id, user_2_id from room where id = ?";
-    //TODO
     private final String GET_USER_NAME_BY_ID = "select user.name from room join user on room.user_?_id = user.id where room.id = ?";
 
     private String getUserNameById(Integer userNumber, Integer roomId) {

@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author ruslan.gramatic
  */
+
 public class RoomDaoImplTest extends DbTest {
     RoomDao roomDao;
 
@@ -68,3 +69,4 @@ public class RoomDaoImplTest extends DbTest {
     }
 
 }
+
