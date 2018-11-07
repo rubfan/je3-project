@@ -1,6 +1,6 @@
 package ua.od.game.controller;
 
-import ua.od.game.dto.AccountRoomDto;
+import ua.od.game.dto.UserRoomDto;
 import ua.od.game.dto.RoomDto;
 
 import javax.ws.rs.core.Response;
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface RoomController {
     List<RoomDto> getAllRoomList();
-    List<AccountRoomDto> getAccountRoomList();
-    Response joinRoom(Integer roomId, Integer accountId);
-    Response leaveRoom(Integer roomId, Integer accountId);
+    List<UserRoomDto> getUserRoomList();
+    Response joinRoom(Integer roomId, Integer userId);
+    Response leaveRoom(Integer roomId, Integer userId);
 }

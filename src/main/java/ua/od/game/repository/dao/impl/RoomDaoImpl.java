@@ -62,7 +62,6 @@ public class RoomDaoImpl implements RoomDao {
         });
     }
 
-
     public Boolean joinRoom(Integer roomId, Integer accountId) {
        return SqlHelper.prepareStatement(CHECK_ROOM_IS_FULL_QUERY, statementForRoomCheck -> {
            statementForRoomCheck.setInt(1, roomId);
@@ -82,7 +81,6 @@ public class RoomDaoImpl implements RoomDao {
                     statementForAccount.executeUpdate();
                     return true;
                 });
-
             });
         });
     }

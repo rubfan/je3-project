@@ -26,11 +26,11 @@ public class RoomServiceImpl implements RoomService {
         return rooms;
     }
 
-    public void joinRoom(Integer roomId, Integer accountId) {
-        roomDao.joinRoom(roomId, accountId);
+    public void joinRoom(Integer roomId, Integer userId) {
+        roomDao.joinRoom(roomId, userId);
     }
 
-    public void leaveRoom(Integer roomId, Integer accountId) {
-        roomDao.leaveRoom(roomId, accountId);
+    public void leaveRoom(Integer roomId, Integer userId) {
+        roomDao.leaveRoom(roomId, userId);
     }
 }

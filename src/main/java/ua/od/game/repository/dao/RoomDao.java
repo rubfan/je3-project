@@ -11,4 +11,5 @@ public interface RoomDao {
     List<RoomEntity> getRoomList();
     Boolean joinRoom(Integer roomId, Integer accountId);
     Boolean leaveRoom(Integer roomId, Integer accountId);
+
 }
