@@ -5,7 +5,6 @@ import ua.od.game.repository.dao.RoomDao;
 import ua.od.game.repository.helper.SqlHelper;
 
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 

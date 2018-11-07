@@ -7,13 +7,9 @@ import ua.od.game.model.RoomEntity;
 import ua.od.game.repository.dao.DbTest;
 import ua.od.game.repository.dao.RoomDao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @author ruslan.gramatic
