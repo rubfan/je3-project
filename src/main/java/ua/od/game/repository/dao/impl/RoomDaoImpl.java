@@ -36,7 +36,8 @@ public class RoomDaoImpl implements RoomDao {
     private final String GET_ROOM_LIST_QUERY = "SELECT * FROM room";
     private final String CHECK_ROOM_IS_FULL_QUERY = "SELECT user_1_id, user_2_id FROM room WHERE id = ?";
     private final String GET_USER_NAME_BY_ID = "SELECT user.name FROM room JOIN user ON room.user_?_id = user.id WHERE room.id = ?";
-    private final String CHECK_FOR_ROOM_EXISTENCE = "SELECT id FROM room WHERE id = ?";
+    private final String CHECK_FOR_EXISTENCE_OF_USER = "SELECT id FROM user WHERE id = ?";
+    private final String CHECK_FOR_EXISTENCE_OF_ROOM = "SELECT id FROM room WHERE id = ?";
 
     private String getUserNameById(Integer userNumber, Integer roomId) {
         return SqlHelper.prepareStatement(GET_USER_NAME_BY_ID, statementForNameById -> {
@@ -66,37 +67,54 @@ public class RoomDaoImpl implements RoomDao {
     }
 
     public Boolean joinRoom(Integer roomId, Integer userId) {
-       return SqlHelper.prepareStatement(CHECK_FOR_ROOM_EXISTENCE, statementForRoomExistence -> {
-           statementForRoomExistence.setInt(1, roomId);
-           ResultSet resultSetRoomExistance = statementForRoomExistence.executeQuery();
-           resultSetRoomExistance.next();
-           if (!resultSetRoomExistance.next())
-               return false;
-           else return SqlHelper.prepareStatement(CHECK_ROOM_IS_FULL_QUERY, statementForFullRoomCheck -> {
-               statementForFullRoomCheck.setInt(1, roomId);
-               ResultSet resultSetFullRoomCheck = statementForFullRoomCheck.executeQuery();
-               resultSetFullRoomCheck.next();
-               if (resultSetFullRoomCheck.getInt("user_1_id") > 0 && resultSetFullRoomCheck.getInt("user_2_id") > 0)
-                   return false;
-               else return SqlHelper.prepareStatement(JOIN_ROOM_QUERY_ROOM_QUERY, statementForRoom -> {
-                   statementForRoom.setInt(1, userId);
-                   statementForRoom.setInt(2, userId);
-                   statementForRoom.setInt(3, userId);
-                   statementForRoom.setInt(4, roomId);
-                   statementForRoom.executeUpdate();
-                   return true;
-               });
-           });
-       });
+        if (!(checkForExistenceOfUser(userId) && checkForExistenceOfRoom(roomId)))
+           return false;
+        else return SqlHelper.prepareStatement(CHECK_ROOM_IS_FULL_QUERY, statementForFullRoomCheck -> {
+            statementForFullRoomCheck.setInt(1, roomId);
+            ResultSet resultSetFullRoomCheck = statementForFullRoomCheck.executeQuery();
+            resultSetFullRoomCheck.next();
+            if (resultSetFullRoomCheck.getInt("user_1_id") > 0 &&
+                    resultSetFullRoomCheck.getInt("user_2_id") > 0)
+                return false;
+            else return SqlHelper.prepareStatement(JOIN_ROOM_QUERY_ROOM_QUERY, statementForRoom -> {
+                statementForRoom.setInt(1, userId);
+                statementForRoom.setInt(2, userId);
+                statementForRoom.setInt(3, userId);
+                statementForRoom.setInt(4, roomId);
+                if (leaveRoom(userId))
+                {
+                    statementForRoom.executeUpdate();
+                    return true;
+                }
+                else return false;
+            });
+        });
     }
 
-    public Boolean leaveRoom(Integer roomId, Integer userId) {
-            return SqlHelper.prepareStatement(LEAVE_ROOM_QUERY_ROOM_QUERY, statementForRoom -> {
+    public Boolean leaveRoom(Integer userId) {
+        if (!checkForExistenceOfUser(userId))
+            return false;
+        return SqlHelper.prepareStatement(LEAVE_ROOM_QUERY_ROOM_QUERY, statementForRoom -> {
             statementForRoom.setInt(1, userId);
             statementForRoom.setInt(2, userId);
             statementForRoom.setInt(3, userId);
             statementForRoom.setInt(4, userId);
             return statementForRoom.executeUpdate() > 0 ? true : false;
        });
+    }
+
+    private boolean checkForExistenceOfRoom(Integer id) {
+        return SqlHelper.prepareStatement(CHECK_FOR_EXISTENCE_OF_ROOM, statementCheckForExistence -> {
+            statementCheckForExistence.setInt(1, id);
+            ResultSet resultSetExistence = statementCheckForExistence.executeQuery();
+            return resultSetExistence.next();
+        });
+    }
+    private boolean checkForExistenceOfUser(Integer id) {
+        return SqlHelper.prepareStatement(CHECK_FOR_EXISTENCE_OF_USER, statementCheckForExistence -> {
+            statementCheckForExistence.setInt(1, id);
+            ResultSet resultSetExistence = statementCheckForExistence.executeQuery();
+            return resultSetExistence.next();
+        });
     }
 }

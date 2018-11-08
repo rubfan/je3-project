@@ -58,7 +58,7 @@ public class RoomControllerImpl implements RoomController {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response leaveRoom(@PathParam("roomId") Integer roomId, @PathParam("userId") Integer userId) {
         Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"room=" + roomId);
-        roomService.leaveRoom(roomId, userId);
+        roomService.leaveRoom(userId);
         return Response.status(200).entity("User Left").build();
     }
 }

@@ -38,9 +38,10 @@ public class RoomDaoImplTest extends DbTest {
         }
         assertTrue(true);
     }
+
     @Test
-    public void enterRoomTest1() {
-        Boolean result = roomDao.joinRoom(565151, 1);
+    public void enterRoomTest() {
+        Boolean result = roomDao.joinRoom(23534, 1);
         System.out.println(result);
         if (result)
             assertTrue(result);
@@ -50,6 +51,7 @@ public class RoomDaoImplTest extends DbTest {
     @Test
     public void enterRoomTest2() {
         Boolean result = roomDao.joinRoom(1, 2);
+        System.out.println(result);
         if (result)
             assertTrue(result);
         else assertFalse(result);
@@ -58,7 +60,8 @@ public class RoomDaoImplTest extends DbTest {
 
     @Test
     public void enterRoomTest3() {
-        Boolean result = roomDao.joinRoom(1, 3);
+        Boolean result = roomDao.joinRoom(3, 3);
+        System.out.println(result);
         if (result)
             assertTrue(result);
         else assertFalse(result);
@@ -66,7 +69,7 @@ public class RoomDaoImplTest extends DbTest {
 
     @Test
     public void leaveRoomTest1() {
-        Boolean result = roomDao.leaveRoom(1, 1);
+        Boolean result = roomDao.leaveRoom(3);
         if (result)
             assertTrue(result);
         else assertFalse(result);
@@ -74,7 +77,7 @@ public class RoomDaoImplTest extends DbTest {
 
     @Test
     public void leaveRoomTest2() {
-        Boolean result = roomDao.leaveRoom(1, 2);
+        Boolean result = roomDao.leaveRoom(2);
         if (result)
             assertTrue(result);
         else assertFalse(result);
@@ -82,7 +85,7 @@ public class RoomDaoImplTest extends DbTest {
 
     @Test
     public void leaveRoomTest3() {
-        Boolean result = roomDao.leaveRoom(1, 3);
+        Boolean result = roomDao.leaveRoom(1);
         if (result)
             assertTrue(result);
         else assertFalse(result);
