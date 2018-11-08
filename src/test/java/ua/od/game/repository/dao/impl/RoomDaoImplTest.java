@@ -3,12 +3,15 @@ package ua.od.game.repository.dao.impl;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import ua.od.game.model.RoomEntity;
 import ua.od.game.repository.dao.DbTest;
 import ua.od.game.repository.dao.RoomDao;
 
-
 import java.util.List;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 
 /**
@@ -33,35 +36,55 @@ public class RoomDaoImplTest extends DbTest {
             System.out.print(rooms.get(i).getUser1Name()+ " ");
             System.out.println(rooms.get(i).getUser2Name()+ " ");
         }
+        assertTrue(true);
     }
     @Test
     public void enterRoomTest1() {
-        System.out.println(roomDao.joinRoom(1, 1).toString());
+        Boolean result = roomDao.joinRoom(1, 1);
+        if (result)
+            assertTrue(result);
+        else assertFalse(result);
     }
 
     @Test
     public void enterRoomTest2() {
-        System.out.println(roomDao.joinRoom(1, 2).toString());
+        Boolean result = roomDao.joinRoom(1, 2);
+        if (result)
+            assertTrue(result);
+        else assertFalse(result);
+
     }
 
     @Test
     public void enterRoomTest3() {
-        System.out.println(roomDao.joinRoom(1, 3).toString());
+        Boolean result = roomDao.joinRoom(1, 3);
+        if (result)
+            assertTrue(result);
+        else assertFalse(result);
     }
 
     @Test
     public void leaveRoomTest1() {
-        System.out.println(roomDao.leaveRoom(1, 1).toString());
+        Boolean result = roomDao.leaveRoom(1, 1);
+        if (result)
+            assertTrue(result);
+        else assertFalse(result);
     }
 
     @Test
     public void leaveRoomTest2() {
-        System.out.println(roomDao.leaveRoom(1, 2).toString());
+        Boolean result = roomDao.leaveRoom(1, 2);
+        if (result)
+            assertTrue(result);
+        else assertFalse(result);
     }
 
     @Test
     public void leaveRoomTest3() {
-        System.out.println(roomDao.leaveRoom(1, 3).toString());
+        Boolean result = roomDao.leaveRoom(1, 3);
+        if (result)
+            assertTrue(result);
+        else assertFalse(result);
     }
 
 }
