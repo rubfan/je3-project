@@ -40,7 +40,8 @@ public class RoomDaoImplTest extends DbTest {
     }
     @Test
     public void enterRoomTest1() {
-        Boolean result = roomDao.joinRoom(1, 1);
+        Boolean result = roomDao.joinRoom(565151, 1);
+        System.out.println(result);
         if (result)
             assertTrue(result);
         else assertFalse(result);
