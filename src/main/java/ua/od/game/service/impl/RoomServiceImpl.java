@@ -30,7 +30,7 @@ public class RoomServiceImpl implements RoomService {
         roomDao.joinRoom(roomId, userId);
     }
 
-    public void leaveRoom(Integer roomId, Integer userId) {
-        roomDao.leaveRoom(roomId, userId);
+    public void leaveRoom(Integer userId) {
+        roomDao.leaveRoom(userId);
     }
 }

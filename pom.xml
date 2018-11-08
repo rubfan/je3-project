@@ -82,7 +82,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.18</version>
+            <version>5.1.44</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -90,7 +90,6 @@
             <version>1.4.197</version>
             <scope>test</scope>
         </dependency>
-
 
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -129,6 +128,5 @@
             <version>2.7</version>
         </dependency>
     </dependencies>
-
 
 </project>
