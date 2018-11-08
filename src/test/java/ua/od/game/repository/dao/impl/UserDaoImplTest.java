@@ -70,11 +70,8 @@ public class UserDaoImplTest extends DbTest {
 
     @Test
     public void testGetUserById() {
-        Integer userId = 18;
-        UserEntity user = userDao.getUserById(userId);
+        Integer userId = 3;
+        assertNull(userDao.getUserById(userId));
 
-        assertEquals("bob",user.getName());
-        assertEquals("6789",user.getPassword());
-        assertEquals("",user.getToken());
     }
 }
