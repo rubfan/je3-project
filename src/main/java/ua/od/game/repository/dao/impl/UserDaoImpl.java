@@ -101,6 +101,26 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public UserEntity getUserById(Integer userId) {
-        return null;
+
+        UserEntity user = null;
+
+        user = SqlHelper.prepareStatement("SELECT * from User where id = ?", pstmt -> {
+            pstmt.setInt(1, userId);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next() ? new UserEntity(){{
+                setId(rs.getInt("id"));
+                setName(rs.getString("name"));
+                setPassword(rs.getString("password"));
+                setToken(rs.getString("token"));
+            }} : null;
+        });
+        if(user == null) {
+            try {
+                throw new Exception("Wrong user Id!!!!!");
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+        }
+        return user;
     }
 }
