@@ -70,7 +70,7 @@ public class UserDaoImplTest extends DbTest {
 
     @Test
     public void testGetUserById() {
-        Integer userId = 3;
+        Integer userId = 15;
         assertNull(userDao.getUserById(userId));
 
     }
