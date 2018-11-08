@@ -5,11 +5,12 @@ import ua.od.game.repository.dao.RoomDao;
 import ua.od.game.repository.helper.SqlHelper;
 
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author by ruslan.gramatic
+ * @author by Mazovskiy Mihail
  */
 public class RoomDaoImpl implements RoomDao {
 
@@ -38,16 +39,7 @@ public class RoomDaoImpl implements RoomDao {
     private final String GET_USER_NAME_BY_ID = "SELECT user.name FROM room JOIN user ON room.user_?_id = user.id WHERE room.id = ?";
     private final String CHECK_FOR_EXISTENCE_OF_USER = "SELECT id FROM user WHERE id = ?";
     private final String CHECK_FOR_EXISTENCE_OF_ROOM = "SELECT id FROM room WHERE id = ?";
-
-    private String getUserNameById(Integer userNumber, Integer roomId) {
-        return SqlHelper.prepareStatement(GET_USER_NAME_BY_ID, statementForNameById -> {
-            statementForNameById.setInt(1, userNumber);
-            statementForNameById.setInt(2, roomId);
-            ResultSet resultSet = statementForNameById.executeQuery();
-            resultSet.next();
-            return resultSet.getString("name");
-        });
-    }
+    private final String USER_IN_THE_ROOM = "SELECT user_1_id, user_2_id FROM room WHERE user_1_id = ? OR user_2_id = ?";
 
     public List<RoomEntity> getRoomList() {
         return SqlHelper.prepareStatement(GET_ROOM_LIST_QUERY, statementForRoomList -> {
@@ -81,12 +73,9 @@ public class RoomDaoImpl implements RoomDao {
                 statementForRoom.setInt(2, userId);
                 statementForRoom.setInt(3, userId);
                 statementForRoom.setInt(4, roomId);
-                if (leaveRoom(userId))
-                {
-                    statementForRoom.executeUpdate();
-                    return true;
-                }
-                else return false;
+                if (userInTheRoom(userId))
+                    leaveRoom(userId);
+                return statementForRoom.executeUpdate()> 0 ? true : false;
             });
         });
     }
@@ -110,11 +99,39 @@ public class RoomDaoImpl implements RoomDao {
             return resultSetExistence.next();
         });
     }
+
     private boolean checkForExistenceOfUser(Integer id) {
         return SqlHelper.prepareStatement(CHECK_FOR_EXISTENCE_OF_USER, statementCheckForExistence -> {
             statementCheckForExistence.setInt(1, id);
             ResultSet resultSetExistence = statementCheckForExistence.executeQuery();
             return resultSetExistence.next();
+        });
+    }
+
+    private boolean userInTheRoom(Integer id) {
+        return SqlHelper.prepareStatement(USER_IN_THE_ROOM, statementCheckForUserInTheRoom -> {
+            statementCheckForUserInTheRoom.setInt(1, id);
+            statementCheckForUserInTheRoom.setInt(2, id);
+            ResultSet resultSetExistence = statementCheckForUserInTheRoom.executeQuery();
+            return resultSetExistence.next();
+        });
+    }
+
+    private String getUserNameById(Integer userNumber, Integer roomId) {
+        return SqlHelper.prepareStatement(GET_USER_NAME_BY_ID, statementForNameById -> {
+            statementForNameById.setInt(1, userNumber);
+            statementForNameById.setInt(2, roomId);
+            ResultSet resultSet = statementForNameById.executeQuery();
+            resultSet.next();
+            return resultSet.getString("name");
+        });
+    }
+
+    //FOR UNIT TESTS ONLY
+    public Boolean kickUsersFromRoom(Integer roomId) {
+        return SqlHelper.prepareStatement("UPDATE room SET user_1_id = NULL, user_2_id = NULL WHERE id = 1", statement -> {
+            statement.executeUpdate();
+        return true;
         });
     }
 }
