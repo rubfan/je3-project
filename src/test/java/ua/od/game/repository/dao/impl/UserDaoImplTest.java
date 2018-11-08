@@ -8,8 +8,11 @@ import ua.od.game.repository.dao.UserDao;
 import java.nio.charset.Charset;
 import java.util.Random;
 import java.util.UUID;
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 public class UserDaoImplTest extends DbTest {
     UserDao userDao;
 
@@ -63,5 +66,15 @@ public class UserDaoImplTest extends DbTest {
     public void testGetUserByToken() {
         String token = "1234";
         assertNull(userDao.getUserByToken(token));
+    }
+
+    @Test
+    public void testGetUserById() {
+        Integer userId = 18;
+        UserEntity user = userDao.getUserById(userId);
+
+        assertEquals("bob",user.getName());
+        assertEquals("6789",user.getPassword());
+        assertEquals("",user.getToken());
     }
 }
