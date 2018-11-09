@@ -44,7 +44,7 @@ public class RoomDaoImpl implements RoomDao {
     public List<RoomEntity> getRoomList() {
         return SqlHelper.prepareStatement(GET_ROOM_LIST_QUERY, statementForRoomList -> {
             ResultSet roomsResultSet = statementForRoomList.executeQuery();
-            List<RoomEntity> rooms = new LinkedList<RoomEntity>();
+            List<RoomEntity> rooms = new LinkedList<>();
             while (roomsResultSet.next()) {
                 rooms.add(new RoomEntity() {{
                     setId(roomsResultSet.getInt("id"));

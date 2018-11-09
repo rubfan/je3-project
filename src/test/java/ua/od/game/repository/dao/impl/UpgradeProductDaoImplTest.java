@@ -38,4 +38,3 @@ public class UpgradeProductDaoImplTest extends DbTest {
             assertTrue(true);
     }
 }
-

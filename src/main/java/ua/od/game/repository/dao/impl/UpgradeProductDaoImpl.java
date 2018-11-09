@@ -27,11 +27,21 @@ public class UpgradeProductDaoImpl implements UpgradeProductDao {
 
     public List<UpgradeProductEntity> getUpgradeProductList() {
         return SqlHelper.prepareStatement(GET_UPGRADE_PRODUCT_LIST_QUERY, statementForUpgradeOfProducts -> {
-            ResultSet upgradeOfPRoductsResultSet = statementForUpgradeOfProducts.executeQuery();
-            List<UpgradeProductEntity> upgradeOfProduct = new LinkedList<UpgradeProductEntity>();
-            while (upgradeOfPRoductsResultSet.next()) {
+            ResultSet upgradeOfProductsResultSet = statementForUpgradeOfProducts.executeQuery();
+            List<UpgradeProductEntity> upgradeOfProduct = new LinkedList<>();
+            while (upgradeOfProductsResultSet.next()) {
                 upgradeOfProduct.add(new UpgradeProductEntity() {{
-
+                    setId(upgradeOfProductsResultSet.getInt("id"));
+                    setUpgradeId(upgradeOfProductsResultSet.getInt(""));
+                    setUpgradeName(upgradeOfProductsResultSet.getString("id"));
+                    setUpgradeDescription(upgradeOfProductsResultSet.getString("id"));
+                    setBuildingId(upgradeOfProductsResultSet.getInt("id"));
+                    setBuildingName(upgradeOfProductsResultSet.getString("id"));
+                    setBuildingDescription(upgradeOfProductsResultSet.getString("id"));
+                    setBuildingProductId(upgradeOfProductsResultSet.getInt("id"));
+                    setResourceName(upgradeOfProductsResultSet.getString("id"));
+                    setResourceDescription(upgradeOfProductsResultSet.getString("id"));
+                    setResourceNumberPerSecond(upgradeOfProductsResultSet.getFloat("id"));
                 }});
             }
             return upgradeOfProduct;
