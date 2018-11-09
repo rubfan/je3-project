@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class RoomDaoImplTest extends DbTest {
+public class UpgradeProductDaoImplTest extends DbTest {
     UpgradeProductDao upgradeProductDao;
 
     @Before
