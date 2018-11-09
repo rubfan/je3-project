@@ -23,7 +23,16 @@ public class UpgradeProductDaoImplTest extends DbTest {
         List<UpgradeProductEntity> upgradeProduct = upgradeProductDao.getUpgradeProductList();
         for (int i = 0; i < upgradeProduct.size(); i++) {
             System.out.print(upgradeProduct.get(i).getId() + " ");
-
+            System.out.print(upgradeProduct.get(i).getUpgradeId() + " ");
+            System.out.print(upgradeProduct.get(i).getUpgradeName() + " ");
+            System.out.print(upgradeProduct.get(i).getUpgradeDescription() + " ");
+            System.out.print(upgradeProduct.get(i).getBuildingId() + " ");
+            System.out.print(upgradeProduct.get(i).getBuildingName() + " ");
+            System.out.print(upgradeProduct.get(i).getBuildingDescription() + " ");
+            System.out.print(upgradeProduct.get(i).getBuildingProductId() + " ");
+            System.out.print(upgradeProduct.get(i).getResourceName() + " ");
+            System.out.print(upgradeProduct.get(i).getResourceDescription() + " ");
+            System.out.print(upgradeProduct.get(i).getResourceNumberPerSecond() + " ");
         }
         if (!upgradeProduct.isEmpty())
             assertTrue(true);

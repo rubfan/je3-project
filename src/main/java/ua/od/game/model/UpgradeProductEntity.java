@@ -3,6 +3,7 @@ package ua.od.game.model;
 import java.io.Serializable;
 
 public class UpgradeProductEntity implements Serializable {
+
     private Integer id;
     private Integer upgradeId;
     private String upgradeName;
@@ -11,7 +12,6 @@ public class UpgradeProductEntity implements Serializable {
     private String buildingName;
     private String buildingDescription;
     private Integer buildingProductId;
-    private Integer resourceId;
     private String resourceName;
     private String resourceDescription;
     private Float resourceNumberPerSecond;
@@ -78,14 +78,6 @@ public class UpgradeProductEntity implements Serializable {
 
     public void setBuildingProductId(Integer buildingProductId) {
         this.buildingProductId = buildingProductId;
-    }
-
-    public Integer getResourceId() {
-        return resourceId;
-    }
-
-    public void setResourceId(Integer resourceId) {
-        this.resourceId = resourceId;
     }
 
     public String getResourceName() {
