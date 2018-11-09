@@ -2,7 +2,7 @@
 
 [Ссылка на Схему базы данных](https://app.sqldbm.com/MySQL/Edit/p43934/)
 
-[Ссылка на статические данные для наполнения таблиц в нашей базе данных](google.com)
+[Ссылка на статические данные для наполнения таблиц в нашей базе данных](https://docs.google.com/spreadsheets/d/18Oq_LGueNtuSDyJmElrROKCLv8bjvSk-_k5BcYifbe8)
 
 [Ссылка на Project Management app](https://trello.com/b/KkkeYEnU/game-project)
 
