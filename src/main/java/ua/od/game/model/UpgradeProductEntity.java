@@ -14,7 +14,7 @@ public class UpgradeProductEntity implements Serializable {
     private Integer buildingProductId;
     private String resourceName;
     private String resourceDescription;
-    private Float resourceNumberPerSecond;
+    private Float resourceUpgradePercent;
 
     public Integer getId() {
         return id;
@@ -96,11 +96,11 @@ public class UpgradeProductEntity implements Serializable {
         this.resourceDescription = resourceDescription;
     }
 
-    public Float getResourceNumberPerSecond() {
-        return resourceNumberPerSecond;
+    public Float getResourceUpgradePercent() {
+        return resourceUpgradePercent;
     }
 
-    public void setResourceNumberPerSecond(Float resourceNumberPerSecond) {
-        this.resourceNumberPerSecond = resourceNumberPerSecond;
+    public void setResourceUpgradePercent(Float resourceUpgradePercent) {
+        this.resourceUpgradePercent = resourceUpgradePercent;
     }
 }

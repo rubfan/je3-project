@@ -32,7 +32,7 @@ public class UpgradeProductDaoImplTest extends DbTest {
             System.out.print(upgradeProduct.get(i).getBuildingProductId() + " ");
             System.out.print(upgradeProduct.get(i).getResourceName() + " ");
             System.out.print(upgradeProduct.get(i).getResourceDescription() + " ");
-            System.out.print(upgradeProduct.get(i).getResourceNumberPerSecond() + " ");
+            System.out.println(upgradeProduct.get(i).getResourceUpgradePercent() + " ");
         }
         if (!upgradeProduct.isEmpty())
             assertTrue(true);

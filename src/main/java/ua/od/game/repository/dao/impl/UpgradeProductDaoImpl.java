@@ -15,14 +15,16 @@ import java.util.List;
 public class UpgradeProductDaoImpl implements UpgradeProductDao {
 
     private final String GET_UPGRADE_PRODUCT_LIST_QUERY = new StringBuilder()
-            .append("UPDATE room ")
-            .append("SET user_1_id = CASE WHEN user_1_id IS NULL ")
-            .append("THEN ? ")
-            .append("ELSE user_1_id END, ")
-            .append("user_2_id = CASE WHEN user_1_id IS NOT NULL AND user_2_id IS NULL AND user_1_id <> ? ")
-            .append("THEN ? ")
-            .append("ELSE user_2_id END ")
-            .append("WHERE id = ?")
+            .append("SELECT upgrade_product.id, ")
+                   .append("upgrade.id AS upgrade_id, upgrade.name AS upgrade_name, upgrade.description AS upgrade_description, ")
+                   .append("building.id AS building_id, building.name AS building_name, building.description AS building_description, ")
+                   .append("resource.id AS resource_id, resource.name AS resource_name, resource.description AS resource_description, ")
+                   .append("upgrade_product.percent ")
+            .append("FROM upgrade_product ")
+                 .append("INNER JOIN upgrade ON upgrade_product.upgrade_id = upgrade.id ")
+                 .append("INNER JOIN building ON upgrade_product.building_id = building.id ")
+                 .append("INNER JOIN resource ON upgrade_product.resource_id = resource.id " )
+            .append("ORDER BY upgrade_product.id ASC;")
             .toString();
 
     public List<UpgradeProductEntity> getUpgradeProductList() {
@@ -32,16 +34,16 @@ public class UpgradeProductDaoImpl implements UpgradeProductDao {
             while (upgradeOfProductsResultSet.next()) {
                 upgradeOfProduct.add(new UpgradeProductEntity() {{
                     setId(upgradeOfProductsResultSet.getInt("id"));
-                    setUpgradeId(upgradeOfProductsResultSet.getInt(""));
-                    setUpgradeName(upgradeOfProductsResultSet.getString("id"));
-                    setUpgradeDescription(upgradeOfProductsResultSet.getString("id"));
-                    setBuildingId(upgradeOfProductsResultSet.getInt("id"));
-                    setBuildingName(upgradeOfProductsResultSet.getString("id"));
-                    setBuildingDescription(upgradeOfProductsResultSet.getString("id"));
-                    setBuildingProductId(upgradeOfProductsResultSet.getInt("id"));
-                    setResourceName(upgradeOfProductsResultSet.getString("id"));
-                    setResourceDescription(upgradeOfProductsResultSet.getString("id"));
-                    setResourceNumberPerSecond(upgradeOfProductsResultSet.getFloat("id"));
+                    setUpgradeId(upgradeOfProductsResultSet.getInt("upgrade_id"));
+                    setUpgradeName(upgradeOfProductsResultSet.getString("upgrade_name"));
+                    setUpgradeDescription(upgradeOfProductsResultSet.getString("upgrade_description"));
+                    setBuildingId(upgradeOfProductsResultSet.getInt("building_id"));
+                    setBuildingName(upgradeOfProductsResultSet.getString("building_name"));
+                    setBuildingDescription(upgradeOfProductsResultSet.getString("building_description"));
+                    setBuildingProductId(upgradeOfProductsResultSet.getInt("resource_id"));
+                    setResourceName(upgradeOfProductsResultSet.getString("resource_name"));
+                    setResourceDescription(upgradeOfProductsResultSet.getString("resource_description"));
+                    setResourceUpgradePercent(upgradeOfProductsResultSet.getFloat("percent"));
                 }});
             }
             return upgradeOfProduct;
