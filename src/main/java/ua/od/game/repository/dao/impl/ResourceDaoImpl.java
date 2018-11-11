@@ -13,9 +13,7 @@ public class ResourceDaoImpl implements ResourceDao {
 
     public List<ResourceEntity> getAllResourceList() {
         return SqlHelper.prepareStatement("SELECT * FROM resource" ,(resourceStatement -> {
-            System.out.println("MArker1");
             ResultSet resultSet = resourceStatement.executeQuery();
-            System.out.println("MArker2");
             List<ResourceEntity> resourcesEntities = new LinkedList<>();
             while (resultSet.next()){
                 resourcesEntities.add(new ResourceEntity(){{
