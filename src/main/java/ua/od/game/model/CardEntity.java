@@ -1,6 +1,7 @@
 package ua.od.game.model;
 
 import java.util.List;
+import java.util.Map;
 
 /**@author Mazovskiy Mihail
  **/
@@ -12,20 +13,14 @@ public class CardEntity {
     private Integer groupId;
     private String name;
     private String description;
-    private Map p1Building;
-    private List<P2Building> p2Building;
-    private List<P1Resource> p1Resource;
-    private List<P2Resource> p2Resource;
-    private List<P1Upgrade> p1Upgrade;
-    private List<P2Upgrade> p2Upgrade;
-    private List<NecessaryBuilding> necessaryBuilding;
-    private List<NecessaryUpgrade> necessaryUpgrade;
-
-    class Map {
-
-        Integer id;
-        Float number;
-    }
+    private Map<Integer, Float> p1Building;
+    private Map<Integer, Float> p2Building;
+    private Map<Integer, Float> p1Resource;
+    private Map<Integer, Float> p2Resource;
+    private Map<Integer, Float> p1Upgrade;
+    private Map<Integer, Float> p2Upgrade;
+    private Map<Integer, Float> necessaryBuilding;
+    private Map<Integer, Float> necessaryUpgrade;
 
 
     public Integer getId() {
@@ -68,67 +63,68 @@ public class CardEntity {
         this.description = description;
     }
 
-    public List<P1Building> getP1Building() {
+    public Map<Integer, Float> getP1Building() {
         return p1Building;
     }
 
-    public void setP1Building(List<P1Building> p1Building) {
+    public void setP1Building(Map<Integer, Float> p1Building) {
         this.p1Building = p1Building;
     }
 
-    public List<P2Building> getP2Building() {
+    public Map<Integer, Float> getP2Building() {
         return p2Building;
     }
 
-    public void setP2Building(List<P2Building> p2Building) {
+    public void setP2Building(Map<Integer, Float> p2Building) {
         this.p2Building = p2Building;
     }
 
-    public List<P1Resource> getP1Resource() {
+    public Map<Integer, Float> getP1Resource() {
         return p1Resource;
     }
 
-    public void setP1Resource(List<P1Resource> p1Resource) {
+    public void setP1Resource(Map<Integer, Float> p1Resource) {
         this.p1Resource = p1Resource;
     }
 
-    public List<P2Resource> getP2Resource() {
+    public Map<Integer, Float> getP2Resource() {
         return p2Resource;
     }
 
-    public void setP2Resource(List<P2Resource> p2Resource) {
+    public void setP2Resource(Map<Integer, Float> p2Resource) {
         this.p2Resource = p2Resource;
     }
 
-    public List<P1Upgrade> getP1Upgrade() {
+    public Map<Integer, Float> getP1Upgrade() {
         return p1Upgrade;
     }
 
-    public void setP1Upgrade(List<P1Upgrade> p1Upgrade) {
+    public void setP1Upgrade(Map<Integer, Float> p1Upgrade) {
         this.p1Upgrade = p1Upgrade;
     }
 
-    public List<P2Upgrade> getP2Upgrade() {
+    public Map<Integer, Float> getP2Upgrade() {
         return p2Upgrade;
     }
 
-    public void setP2Upgrade(List<P2Upgrade> p2Upgrade) {
+    public void setP2Upgrade(Map<Integer, Float> p2Upgrade) {
         this.p2Upgrade = p2Upgrade;
     }
 
-    public List<NecessaryBuilding> getNecessaryBuilding() {
+    public Map<Integer, Float> getNecessaryBuilding() {
         return necessaryBuilding;
     }
 
-    public void setNecessaryBuilding(List<NecessaryBuilding> necessaryBuilding) {
+    public void setNecessaryBuilding(Map<Integer, Float> necessaryBuilding) {
         this.necessaryBuilding = necessaryBuilding;
     }
 
-    public List<NecessaryUpgrade> getNecessaryUpgrade() {
+    public Map<Integer, Float> getNecessaryUpgrade() {
         return necessaryUpgrade;
     }
 
-    public void setNecessaryUpgrade(List<NecessaryUpgrade> necessaryUpgrade) {
+    public void setNecessaryUpgrade(Map<Integer, Float> necessaryUpgrade) {
         this.necessaryUpgrade = necessaryUpgrade;
     }
+
 }
