@@ -11,6 +11,10 @@ import org.eclipse.jetty.server.Server;
  */
 public class ApplicationStarter {
     public static void main(String[] args) throws Exception {
+        if (args != null && args.length > 0 && args[0].equals("deploy")) {
+            DataBaseDeployer.createDb();
+            DataBaseDeployer.deployDb();
+        }
         boolean debug = false;
 
         Server jettyServer = new Server(9090);
