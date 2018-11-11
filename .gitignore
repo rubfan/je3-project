@@ -21,6 +21,3 @@ buildNumber.properties
 .project
 
 .DS_Store
-
-src/main/resources/config/db.properties
-src/test/resources/config/db.properties 
