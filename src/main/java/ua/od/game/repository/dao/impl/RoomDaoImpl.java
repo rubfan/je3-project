@@ -34,6 +34,8 @@ public class RoomDaoImpl implements RoomDao {
                                  .append("ELSE user_2_id END ")
             .append("WHERE user_1_id = ? OR user_2_id = ?")
             .toString();
+    //private final String CHECK_ROOM_IS_FULL_QUERY = "SELECT (res_num - account_res_num) AS aaa ";
+
     private final String GET_ROOM_LIST_QUERY = "SELECT * FROM room";
     private final String CHECK_ROOM_IS_FULL_QUERY = "SELECT user_1_id, user_2_id FROM room WHERE id = ?";
     private final String GET_USER_NAME_BY_ID = "SELECT user.name FROM room JOIN user ON room.user_?_id = user.id WHERE room.id = ?";
