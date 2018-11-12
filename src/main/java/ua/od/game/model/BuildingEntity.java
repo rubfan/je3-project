@@ -1,9 +1,10 @@
 package ua.od.game.model;
 
-public class ResourceEntity {
+public class BuildingEntity {
     private Integer id;
     private String name;
     private String description;
+
 
     public Integer getId() {
         return id;
@@ -31,9 +32,14 @@ public class ResourceEntity {
 
     @Override
     public String toString() {
-        return new String("Resource: " +
+        return new String("Building: " +
                 "id = " + getId() +
                 " name = " + getName() +
                 " description = " + getDescription());
     }
+
+
+
+
+
 }
