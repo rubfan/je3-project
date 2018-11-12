@@ -4,7 +4,7 @@ INSERT INTO `card_product`
     `p1_upgrade_number`,`p2_upgrade_number`,`necessary_building_id`,`necessary_upgrade_id`,`necessary_building_number`,
     `necessary_upgrade_number`)
 VALUES
-    /* Buildings */
+    /* Buildings*/
     ('1','1','1','1',null,'1',null,'1',null,'-150',null,null,null,null,null,null,null,null,null),
     ('2','1','1','1',null,'1',null,'2',null,'-150',null,null,null,null,null,null,null,null,null),
     ('3','2','1','2',null,'1',null,'1',null,'-150',null,null,null,null,null,null,null,null,null),
@@ -65,11 +65,11 @@ VALUES
     ('58','21','1','21',null,'1',null,'20',null,'-300',null,null,null,null,null,'20',null,null,null),
     ('59','22','1','22',null,'1',null,'1',null,'-3000',null,null,null,null,null,'20',null,null,null),
     ('60','22','1','22',null,'1',null,'7',null,'-1500',null,null,null,null,null,'20',null,null,null),
-    ('61','22','1','22',null,'1',null,'20',null,'-1500',null,null,null,null,null,'20',null,null,null)
+    ('61','22','1','22',null,'1',null,'20',null,'-1500',null,null,null,null,null,'20',null,null,null),
     /* Upgrades */
     ('62','23','2','1',null,null,null,'1',null,'-150',null,'1',null,'1',null,'1',null,null,null),
     ('63','23','2','1',null,null,null,'2',null,'-150',null,'1',null,'1',null,'1',null,null,null),
     ('64','24','2','1',null,null,null,'1',null,'-150',null,'2',null,'1',null,'1','1',null,null),
     ('65','24','2','2',null,null,null,'2',null,'-150',null,'2',null,'1',null,'2','1',null,null),
     ('66','25','2','3',null,null,null,'1',null,'-200',null,'3',null,'1',null,'3',null,null,null),
-    ('67','25','2','3',null,null,null,'2',null,'-200',null,'3',null,'1',null,'3',null,null,null),
+    ('67','25','2','3',null,null,null,'2',null,'-200',null,'3',null,'1',null,'3',null,null,null)

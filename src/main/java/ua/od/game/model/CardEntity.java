@@ -13,15 +13,14 @@ public class CardEntity {
     private Integer groupId;
     private String name;
     private String description;
-    private Map<Integer, Float> p1Building;
-    private Map<Integer, Float> p2Building;
-    private Map<Integer, Float> p1Resource;
-    private Map<Integer, Float> p2Resource;
-    private Map<Integer, Float> p1Upgrade;
-    private Map<Integer, Float> p2Upgrade;
-    private Map<Integer, Float> necessaryBuilding;
-    private Map<Integer, Float> necessaryUpgrade;
-
+    private Map<Integer, Float> p1Buildings;
+    private Map<Integer, Float> p2Buildings;
+    private Map<Integer, Float> p1Resources;
+    private Map<Integer, Float> p2Resources;
+    private Map<Integer, Float> p1Upgrades;
+    private Map<Integer, Float> p2Upgrades;
+    private Map<Integer, Float> necessaryBuildings;
+    private Map<Integer, Float> necessaryUpgrades;
 
     public Integer getId() {
         return id;
@@ -63,68 +62,67 @@ public class CardEntity {
         this.description = description;
     }
 
-    public Map<Integer, Float> getP1Building() {
-        return p1Building;
+    public Map<Integer, Float> getP1Buildings() {
+        return p1Buildings;
     }
 
-    public void setP1Building(Map<Integer, Float> p1Building) {
-        this.p1Building = p1Building;
+    public void setP1Buildings(Map<Integer, Float> p1Buildings) {
+        this.p1Buildings = p1Buildings;
     }
 
-    public Map<Integer, Float> getP2Building() {
-        return p2Building;
+    public Map<Integer, Float> getP2Buildings() {
+        return p2Buildings;
     }
 
-    public void setP2Building(Map<Integer, Float> p2Building) {
-        this.p2Building = p2Building;
+    public void setP2Buildings(Map<Integer, Float> p2Buildings) {
+        this.p2Buildings = p2Buildings;
     }
 
-    public Map<Integer, Float> getP1Resource() {
-        return p1Resource;
+    public Map<Integer, Float> getP1Resources() {
+        return p1Resources;
     }
 
-    public void setP1Resource(Map<Integer, Float> p1Resource) {
-        this.p1Resource = p1Resource;
+    public void setP1Resources(Map<Integer, Float> p1Resources) {
+        this.p1Resources = p1Resources;
     }
 
-    public Map<Integer, Float> getP2Resource() {
-        return p2Resource;
+    public Map<Integer, Float> getP2Resources() {
+        return p2Resources;
     }
 
-    public void setP2Resource(Map<Integer, Float> p2Resource) {
-        this.p2Resource = p2Resource;
+    public void setP2Resources(Map<Integer, Float> p2Resources) {
+        this.p2Resources = p2Resources;
     }
 
-    public Map<Integer, Float> getP1Upgrade() {
-        return p1Upgrade;
+    public Map<Integer, Float> getP1Upgrades() {
+        return p1Upgrades;
     }
 
-    public void setP1Upgrade(Map<Integer, Float> p1Upgrade) {
-        this.p1Upgrade = p1Upgrade;
+    public void setP1Upgrades(Map<Integer, Float> p1Upgrades) {
+        this.p1Upgrades = p1Upgrades;
     }
 
-    public Map<Integer, Float> getP2Upgrade() {
-        return p2Upgrade;
+    public Map<Integer, Float> getP2Upgrades() {
+        return p2Upgrades;
     }
 
-    public void setP2Upgrade(Map<Integer, Float> p2Upgrade) {
-        this.p2Upgrade = p2Upgrade;
+    public void setP2Upgrades(Map<Integer, Float> p2Upgrades) {
+        this.p2Upgrades = p2Upgrades;
     }
 
-    public Map<Integer, Float> getNecessaryBuilding() {
-        return necessaryBuilding;
+    public Map<Integer, Float> getNecessaryBuildings() {
+        return necessaryBuildings;
     }
 
-    public void setNecessaryBuilding(Map<Integer, Float> necessaryBuilding) {
-        this.necessaryBuilding = necessaryBuilding;
+    public void setNecessaryBuildings(Map<Integer, Float> necessaryBuildings) {
+        this.necessaryBuildings = necessaryBuildings;
     }
 
-    public Map<Integer, Float> getNecessaryUpgrade() {
-        return necessaryUpgrade;
+    public Map<Integer, Float> getNecessaryUpgrades() {
+        return necessaryUpgrades;
     }
 
-    public void setNecessaryUpgrade(Map<Integer, Float> necessaryUpgrade) {
-        this.necessaryUpgrade = necessaryUpgrade;
+    public void setNecessaryUpgrades(Map<Integer, Float> necessaryUpgrades) {
+        this.necessaryUpgrades = necessaryUpgrades;
     }
-
 }
