@@ -3,6 +3,6 @@ package ua.od.game.dto;
 /**
  * @author ruslan.gramatic
  */
-public class AccountNotificationDto {
+public class UserNotificationDto {
     private Integer notificationId;
 }

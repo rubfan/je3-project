@@ -6,50 +6,43 @@ CREATE TABLE `User` (
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `Account` (
-	`id` INT NOT NULL AUTO_INCREMENT,
-	`user_id` INT NOT NULL,
-	`room_id` INT,
-	PRIMARY KEY (`id`)
-);
-
 CREATE TABLE `Room` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` varchar(64) NOT NULL,
 	`description` varchar(128) NOT NULL,
-	`account_1_id` INT,
-	`account_2_id` INT,
+	`user_1_id` INT,
+	`user_2_id` INT,
 	`start_game_time` DATETIME,
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `Account_Building` (
+CREATE TABLE `User_Building` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-	`account_id` INT NOT NULL,
+	`user_id` INT NOT NULL,
 	`building_id` INT NOT NULL,
 	`number` FLOAT NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `Account_Resource` (
+CREATE TABLE `User_Resource` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-	`account_id` INT NOT NULL,
+	`user_id` INT NOT NULL,
 	`resource_id` INT NOT NULL,
 	`number` FLOAT NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `Account_Upgrade` (
+CREATE TABLE `User_Upgrade` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-	`account_id` INT NOT NULL,
+	`user_id` INT NOT NULL,
 	`upgrade_id` INT NOT NULL,
 	`number` FLOAT NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `Account_Achievement` (
+CREATE TABLE `User_Achievement` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-	`account_id` INT NOT NULL,
+	`user_id` INT NOT NULL,
 	`achievement_id` INT NOT NULL,
 	`number` FLOAT NOT NULL,
 	PRIMARY KEY (`id`)
@@ -58,8 +51,8 @@ CREATE TABLE `Account_Achievement` (
 CREATE TABLE `Message` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`text` varchar(128) NOT NULL,
-	`from_account_id` INT NOT NULL,
-	`to_account_id` INT NOT NULL,
+	`from_user_id` INT NOT NULL,
+	`to_user_id` INT NOT NULL,
 	`time` DATETIME NOT NULL,
 	PRIMARY KEY (`id`)
 );
@@ -177,33 +170,33 @@ CREATE TABLE `Trigger_Achievement` (
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `Account_Notification` (
+CREATE TABLE `User_Notification` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-	`account_id` INT NOT NULL,
+	`user_id` INT NOT NULL,
 	`notification_id` INT NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
-ALTER TABLE `Account` ADD CONSTRAINT `Account_fk0` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`);
-ALTER TABLE `Account` ADD CONSTRAINT `Account_fk1` FOREIGN KEY (`room_id`) REFERENCES `Room`(`id`);
+ALTER TABLE `User` ADD CONSTRAINT `User_fk0` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`);
+ALTER TABLE `User` ADD CONSTRAINT `User_fk1` FOREIGN KEY (`room_id`) REFERENCES `Room`(`id`);
 
-ALTER TABLE `Room` ADD CONSTRAINT `Room_fk0` FOREIGN KEY (`account_1_id`) REFERENCES `Account`(`id`);
-ALTER TABLE `Room` ADD CONSTRAINT `Room_fk1` FOREIGN KEY (`account_2_id`) REFERENCES `Account`(`id`);
+ALTER TABLE `Room` ADD CONSTRAINT `Room_fk0` FOREIGN KEY (`user_1_id`) REFERENCES `User`(`id`);
+ALTER TABLE `Room` ADD CONSTRAINT `Room_fk1` FOREIGN KEY (`user_2_id`) REFERENCES `User`(`id`);
 
-ALTER TABLE `Account_Building` ADD CONSTRAINT `Account_Building_fk0` FOREIGN KEY (`account_id`) REFERENCES `Account`(`id`);
-ALTER TABLE `Account_Building` ADD CONSTRAINT `Account_Building_fk1` FOREIGN KEY (`building_id`) REFERENCES `Building`(`id`);
+ALTER TABLE `User_Building` ADD CONSTRAINT `User_Building_fk0` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`);
+ALTER TABLE `User_Building` ADD CONSTRAINT `User_Building_fk1` FOREIGN KEY (`building_id`) REFERENCES `Building`(`id`);
 
-ALTER TABLE `Account_Resource` ADD CONSTRAINT `Account_Resource_fk0` FOREIGN KEY (`account_id`) REFERENCES `Account`(`id`);
-ALTER TABLE `Account_Resource` ADD CONSTRAINT `Account_Resource_fk1` FOREIGN KEY (`resource_id`) REFERENCES `Resource`(`id`);
+ALTER TABLE `User_Resource` ADD CONSTRAINT `User_Resource_fk0` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`);
+ALTER TABLE `User_Resource` ADD CONSTRAINT `User_Resource_fk1` FOREIGN KEY (`resource_id`) REFERENCES `Resource`(`id`);
 
-ALTER TABLE `Account_Upgrade` ADD CONSTRAINT `Account_Upgrade_fk0` FOREIGN KEY (`account_id`) REFERENCES `Account`(`id`);
-ALTER TABLE `Account_Upgrade` ADD CONSTRAINT `Account_Upgrade_fk1` FOREIGN KEY (`upgrade_id`) REFERENCES `Upgrade`(`id`);
+ALTER TABLE `User_Upgrade` ADD CONSTRAINT `User_Upgrade_fk0` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`);
+ALTER TABLE `User_Upgrade` ADD CONSTRAINT `User_Upgrade_fk1` FOREIGN KEY (`upgrade_id`) REFERENCES `Upgrade`(`id`);
 
-ALTER TABLE `Account_Achievement` ADD CONSTRAINT `Account_Achievement_fk0` FOREIGN KEY (`account_id`) REFERENCES `Account`(`id`);
-ALTER TABLE `Account_Achievement` ADD CONSTRAINT `Account_Achievement_fk1` FOREIGN KEY (`achievement_id`) REFERENCES `Achievement`(`id`);
+ALTER TABLE `User_Achievement` ADD CONSTRAINT `User_Achievement_fk0` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`);
+ALTER TABLE `User_Achievement` ADD CONSTRAINT `User_Achievement_fk1` FOREIGN KEY (`achievement_id`) REFERENCES `Achievement`(`id`);
 
-ALTER TABLE `Message` ADD CONSTRAINT `Message_fk0` FOREIGN KEY (`from_account_id`) REFERENCES `Account`(`id`);
-ALTER TABLE `Message` ADD CONSTRAINT `Message_fk1` FOREIGN KEY (`to_account_id`) REFERENCES `Account`(`id`);
+ALTER TABLE `Message` ADD CONSTRAINT `Message_fk0` FOREIGN KEY (`from_user_id`) REFERENCES `User`(`id`);
+ALTER TABLE `Message` ADD CONSTRAINT `Message_fk1` FOREIGN KEY (`to_user_id`) REFERENCES `User`(`id`);
 
 ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk0` FOREIGN KEY (`card_id`) REFERENCES `Card`(`id`);
 ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk9` FOREIGN KEY (`card_group_id`) REFERENCES `Card_Group`(`id`);
@@ -233,5 +226,5 @@ ALTER TABLE `Trigger_Achievement` ADD CONSTRAINT `Trigger_Achievement_fk1` FOREI
 ALTER TABLE `Trigger_Achievement` ADD CONSTRAINT `Trigger_Achievement_fk2` FOREIGN KEY (`resource_id`) REFERENCES `Resource`(`id`);
 ALTER TABLE `Trigger_Achievement` ADD CONSTRAINT `Trigger_Achievement_fk3` FOREIGN KEY (`upgrade_id`) REFERENCES `Upgrade`(`id`);
 
-ALTER TABLE `Account_Notification` ADD CONSTRAINT `Account_Notification_fk0` FOREIGN KEY (`account_id`) REFERENCES `Account`(`id`);
-ALTER TABLE `Account_Notification` ADD CONSTRAINT `Account_Notification_fk1` FOREIGN KEY (`notification_id`) REFERENCES `Notification`(`id`);
+ALTER TABLE `User_Notification` ADD CONSTRAINT `User_Notification_fk0` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`);
+ALTER TABLE `User_Notification` ADD CONSTRAINT `User_Notification_fk1` FOREIGN KEY (`notification_id`) REFERENCES `Notification`(`id`);

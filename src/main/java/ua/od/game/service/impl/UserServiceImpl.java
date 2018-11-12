@@ -48,4 +48,15 @@ public class UserServiceImpl implements UserService {
             setToken(userEntity.getToken());
         }};
     }
+
+    @Override
+    public UserDto getUserById(Integer userId) {
+        UserEntity userEntity = userDao.getUserById(userId);
+        return new UserDto() {{
+            setId(userEntity.getId());
+            setName(userEntity.getName());
+            setPassword(userEntity.getPassword());
+            setToken(userEntity.getToken());
+        }};
+    }
 }

@@ -1,7 +1,6 @@
 package ua.od.game.repository.dao;
 
 import ua.od.game.model.RoomEntity;
-
 import java.util.List;
 
 /**
@@ -9,6 +8,7 @@ import java.util.List;
  */
 public interface RoomDao {
     List<RoomEntity> getRoomList();
-    void joinRoom(Integer roomId, Integer accountId);
-    void leaveRoom(Integer roomId, Integer accountId);
+    Boolean joinRoom(Integer roomId, Integer userId);
+    Boolean leaveRoom(Integer userId);
+
 }

@@ -1,7 +1,7 @@
 package ua.od.game.controller.impl;
 
 import ua.od.game.controller.RoomController;
-import ua.od.game.dto.AccountRoomDto;
+import ua.od.game.dto.UserRoomDto;
 import ua.od.game.dto.RoomDto;
 import ua.od.game.service.RoomService;
 
@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -30,6 +31,7 @@ public class RoomControllerImpl implements RoomController {
 
     @GET
     @Path("list")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public List<RoomDto> getAllRoomList() {
         List<RoomDto> roomList = roomService.getRoomList();
         Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, roomList.toString());
@@ -37,26 +39,26 @@ public class RoomControllerImpl implements RoomController {
     }
 
     @GET
-    @Path("account/list")
-    public List<AccountRoomDto> getAccountRoomList() {
+    @Path("user/list")
+    public List<UserRoomDto> getUserRoomList() {
         return Collections.emptyList(); //TODO: we need to return this list with correct data
     }
 
     @GET
-    @Path("{roomId}/account/{accountId}/join")
+    @Path("{roomId}/user/{userId}/join")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response joinRoom(@PathParam("roomId") Integer roomId, @PathParam("accountId") Integer accountId) {
+    public Response joinRoom(@PathParam("roomId") Integer roomId, @PathParam("userId") Integer userId) {
         Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"room=" + roomId);
-        roomService.joinRoom(roomId, accountId);
+        roomService.joinRoom(roomId, userId);
         return Response.status(200).entity("User Entered").build();
     }
 
     @GET
-    @Path("{roomId}/account/{accountId}/leave")
+    @Path("{roomId}/user/{userId}/leave")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response leaveRoom(@PathParam("roomId") Integer roomId, @PathParam("accountId") Integer accountId) {
+    public Response leaveRoom(@PathParam("roomId") Integer roomId, @PathParam("userId") Integer userId) {
         Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,"room=" + roomId);
-        roomService.leaveRoom(roomId, accountId);
+        roomService.leaveRoom(userId);
         return Response.status(200).entity("User Left").build();
     }
 }

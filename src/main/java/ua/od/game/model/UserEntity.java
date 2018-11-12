@@ -1,8 +1,5 @@
 package ua.od.game.model;
 
-/**
- * @author ruslan.gramatic
- */
 public class UserEntity {
     private Integer id;
     private String name;

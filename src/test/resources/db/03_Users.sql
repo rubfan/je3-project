@@ -1,5 +1,8 @@
 INSERT INTO `User`
-    (`id`,`name`,`password`,`token`)
+    (`name`,`password`,`token`)
 VALUES
-    (1,'u1','u1', '11111'),
-    (2,'u2','u2', '22222')
+    ('ramzes','12345','6789'),
+    ('bob','6789','7777'),
+    ('Scripa4','11111','7777'),
+    ('king','44444','7778')
+

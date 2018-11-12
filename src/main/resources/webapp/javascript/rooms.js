@@ -6,8 +6,8 @@ const ROOM_TABLE_BODY = (o) => `
         <td>${o.id}</td>
         <td>${o.name}</td>
         <td>${o.description}</td>
-        <td>${o.account1}</td>
-        <td>${o.account2}</td>
+        <td>${o.user1}</td>
+        <td>${o.user2}</td>
     </tr>`;
 
 const JOIN_GAME_CELL = (id) => `<button class="room-button" onclick="endpoints.RoomController.joinRoom(${id})">Join Game</button>`;
@@ -32,12 +32,17 @@ function requestRoomsTable() {
                 id: model[x]['id'],
                 name: model[x]['name'],
                 description: model[x]['description'],
-                account1: (model[x]['account1'] == undefined ? JOIN_GAME_CELL(model[x]['id']) : IN_GAME_CELL_1),
-                account2: (model[x]['account2'] == undefined ? JOIN_GAME_CELL(model[x]['id']) : IN_GAME_CELL_2)
+                user1: (model[x]['user1'] == undefined ? JOIN_GAME_CELL(model[x]['id']) : IN_GAME_CELL_1),
+                user2: (model[x]['user2'] == undefined ? JOIN_GAME_CELL(model[x]['id']) : IN_GAME_CELL_2)
             });
         }
         if(!roomsTableBody) return;
         setView("roomsTableBody", roomsTableBody);
     });
 }
+
+//=============================
+//============START============
+//=============================
+showRooms();
 

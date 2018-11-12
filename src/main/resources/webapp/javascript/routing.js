@@ -18,32 +18,28 @@ const static = {
 };
 
 const endpoints = {
-    AccountAchievementController: {
-        getAccountAchievementsList: (accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/${accountId}/achievement/list`, callback)
+    UserAchievementController: {
+        getUserAchievementsList: (userId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/user/${userId}/achievement/list`, callback)
     },
-    AccountBuildingController: {
-        clearAccountBuildingList: (accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/${accountId}/building/list/clear`, callback),
-        getAccountBuildingList: (accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/${accountId}/building/list`, callback)
+    UserBuildingController: {
+        clearUserBuildingList: (userId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/user/${userId}/building/list/clear`, callback),
+        getUserBuildingList: (userId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/user/${userId}/building/list`, callback)
     },
-    AccountCardController: {
-        applyCard: (accountId, cardId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/${accountId}/card/${cardId}/apply`, callback),
-        getAllowAccountCardList: (accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/${accountId}/card/list`, callback)
+    UserCardController: {
+        applyCard: (userId, cardId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/user/${userId}/card/${cardId}/apply`, callback),
+        getAllowUserCardList: (userId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/user/${userId}/card/list`, callback)
     },
-    AccountController: {
-        getAccountInfo: (accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/${accountId}`, callback),
-        getAccountByCookie: (callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/id`, callback)
+    UserNotificationController: {
+        clearUserNotificationList: (userId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/user/${userId}/notification/list/clear`, callback),
+        getUserRecentNotificationList: (userId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/user/${userId}/notification/list`, callback)
     },
-    AccountNotificationController: {
-        clearAccountNotificationList: (accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/${accountId}/notification/list/clear`, callback),
-        getAccountRecentNotificationList: (accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/${accountId}/notification/list`, callback)
+    UserResourceController: {
+        clearUserResourceList: (userId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/user/${userId}/resource/list/clear`, callback),
+        getUserResourceList: (userId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/user/${userId}/resource/list`, callback)
     },
-    AccountResourceController: {
-        clearAccountResourceList: (accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/${accountId}/resource/list/clear`, callback),
-        getAccountResourceList: (accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/${accountId}/resource/list`, callback)
-    },
-    AccountUpgradeController: {
-        clearAccountUpgradeList: (accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/${accountId}/upgrade/list/clear`, callback),
-        getAccountUpgradeList: (accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/account/${accountId}/upgrade/list`, callback)
+    UserUpgradeController: {
+        clearUserUpgradeList: (userId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/user/${userId}/upgrade/list/clear`, callback),
+        getUserUpgradeList: (userId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/user/${userId}/upgrade/list`, callback)
     },
     AchievementController: {
         getAllAchievementList: (callback) => restRequest(METHOD_GET, `${REST_API_URL}/achievement/list`, callback)
@@ -56,7 +52,7 @@ const endpoints = {
     },
     MessageController: {
         getRoomMessageList: (roomId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/room/${roomId}/message/list`, callback),
-        sendMessage: (accountId, callback) => restRequest(METHOD_POST, `${REST_API_URL}/account/${accountId}/message`, callback)
+        sendMessage: (userId, callback) => restRequest(METHOD_POST, `${REST_API_URL}/user/${userId}/message`, callback)
     },
     NotificationController: {
         getAllNotificationList: (callback) => restRequest(METHOD_GET, `${REST_API_URL}/notification/list`, callback)
@@ -65,10 +61,10 @@ const endpoints = {
         getAllResourceList: (callback) => restRequest(METHOD_GET, `${REST_API_URL}/resource/list`, callback)
     },
     RoomController: {
-        getAccountRoomList: (callback) => restRequest(METHOD_GET, `${REST_API_URL}/room/account/list`, callback),
+        getUserRoomList: (callback) => restRequest(METHOD_GET, `${REST_API_URL}/room/user/list`, callback),
         getAllRoomList: (callback) => restRequest(METHOD_GET, `${REST_API_URL}/room/list`, callback),
-        joinRoom: (roomId, accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/room/${roomId}/account/${accountId}/join`, callback),
-        leaveRoom: (roomId, accountId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/room/${roomId}/account/${accountId}/leave`, callback)
+        joinRoom: (roomId, userId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/room/${roomId}/user/${userId}/join`, callback),
+        leaveRoom: (roomId, userId, callback) => restRequest(METHOD_GET, `${REST_API_URL}/room/${roomId}/user/${userId}/leave`, callback)
     },
     UpgradeController: {
         getAllUpgradeList: (callback) => restRequest(METHOD_GET, `${REST_API_URL}/upgrade/list`, callback)
@@ -81,27 +77,29 @@ const endpoints = {
 };
 
 function restRequest(method, url, callback, body) {
+    console.log("restRequest method: " + method + " url: " + url + (body ? " body:" : ""));
+    if (body) console.log(body);
     var httpRequest = new XMLHttpRequest();
-    httpRequest.open(method, url, true);
-    httpRequest.setRequestHeader("Content-type", "application/json");
-    httpRequest.setRequestHeader('Accept', 'application/json');
-    httpRequest.onreadystatechange = () => {
+    httpRequest.onreadystatechange = function() {
+        console.log("status: " + this.status);
         if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
             if(callback && this.responseText) {
-                callback(JSON.parse(this.responseText));
+                console.log("executed callback with data object: " + callback.name);
+                callback(this.responseText);
+                //callback(JSON.parse(this.responseText));
             } else if (callback) {
+                console.log("executed callback: " + callback.name);
                 callback();
             }
-        } else {
-            console.log("status: " + this.status);
-            console.log(this.responseText);
         }
     };
-    if(body) console.log(body);
+    httpRequest.open(method, url, true);
+    httpRequest.setRequestHeader('Accept', 'application/json');
+    httpRequest.setRequestHeader("Content-type", "application/json");
     switch(method) {
         case METHOD_GET: httpRequest.send(null); break;
-        case METHOD_POST: httpRequest.send(JSON.stringify(requestBody)); break;
-        case METHOD_PUT: httpRequest.send(JSON.stringify(requestBody)); break;
+        case METHOD_POST: httpRequest.send(JSON.stringify(body)); break;
+        case METHOD_PUT: httpRequest.send(JSON.stringify(body)); break;
         case METHOD_DELETE: httpRequest.send(null); break;
     }
 }
