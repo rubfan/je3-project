@@ -1,26 +1,8 @@
 package ua.od.game.model;
 
 public class UpgradeNumberEntity {
-    private Integer id;
-    private Integer userId;
     private Integer upgradeId;
     private Float number;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 
     public Integer getUpgradeId() {
         return upgradeId;
@@ -41,8 +23,6 @@ public class UpgradeNumberEntity {
     @Override
     public String toString() {
         return "UpgradeNumberEntity{" +
-                "id=" + id +
-                ", userId=" + userId +
                 ", upgradeId=" + upgradeId +
                 ", number=" + number +
                 '}';

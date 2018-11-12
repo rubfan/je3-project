@@ -17,8 +17,6 @@ public class UserUpgradeDaoImpl implements UserUpgradeDao {
             List<UpgradeNumberEntity> list = new LinkedList<>();
             while(rs.next()) {
                 list.add(new UpgradeNumberEntity(){{
-                    setId(rs.getInt("id"));
-                    setUserId(rs.getInt("user_id"));
                     setUpgradeId(rs.getInt("upgrade_id"));
                     setNumber(rs.getFloat("number"));
                 }});
