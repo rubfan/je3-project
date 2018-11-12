@@ -1,4 +1,4 @@
-INSERT INTO `Building`
+INSERT INTO `building`
     (`id`, `name`,`description`)
 VALUES
     ('1', 'Granary', 'The most mysterious building. It makes food from nothing.'),
@@ -22,7 +22,8 @@ VALUES
     ('19', 'School of Bazookas', 'Produce cocks with bazookas'),
     ('20', 'Altar', 'Produce mana essence'),
     ('21', 'School of Magic', 'Produce cocks magicians'),
-    ('22', 'Zikkurat', 'Produce cocks prophets');
+    ('22', 'Zikkurat', 'Produce cocks prophets')
+    ;
 
     INSERT INTO `Building_Product`
         (`building_id`, `resource_id`, `number_per_sec`)
