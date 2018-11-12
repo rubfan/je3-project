@@ -1,9 +1,9 @@
 package ua.od.game.repository.dao;
 
-import ua.od.game.model.ResourcesEntity;
+import ua.od.game.model.ResourceEntity;
 
 import java.util.List;
 
 public interface ResourceDao {
-    List <ResourcesEntity> getAllResourceList();
+    List <ResourceEntity> getAllResourceList();
 }

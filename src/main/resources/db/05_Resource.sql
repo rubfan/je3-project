@@ -5,7 +5,7 @@ VALUES
     ('2', 'eggs','They roll out from the strange building.'),
     ('3', 'chickens','Future workers , future fighters.'),
     ('4', 'dung','It shall be useful in the future. lets save some in warehouse.'),
-    ('5', 'hens','Lay some eggs for me baby! They will become cocks in future. Strange logic.'),
+    ('5', 'hens','Lay some eggs for me baby!'),
     ('6', 'cocks','Mighty warriors (in future).'),
     ('7', 'fighting cocks','They can fight, they can kill, they can sprinkle you with dung.'),
     ('8', 'stone','The first material of ancient war'),
