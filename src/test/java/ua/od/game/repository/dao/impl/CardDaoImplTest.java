@@ -27,6 +27,6 @@ public class CardDaoImplTest extends DbTest {
         List<CardEntity> cardsTest = cardDao.getAllCardList();
         Assert.assertFalse(cardsTest.isEmpty());
         Assert.assertEquals("Granary", cardsTest.get(0).getName());
-        Assert.assertEquals("Chicken House", cardsTest.get(1).getName());
+        Assert.assertEquals("Chicken House", cardsTest.get(2).getName());
     }
 }
