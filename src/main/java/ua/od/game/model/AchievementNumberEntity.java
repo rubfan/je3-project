@@ -2,9 +2,9 @@ package ua.od.game.model;
 
 public class AchievementNumberEntity {
     private Integer id;
-    private String name;
-    private String description;
-
+    private Integer user_id;
+    private Integer achievement_id;
+    private Float number;
 
     public Integer getId() {
         return id;
@@ -14,28 +14,37 @@ public class AchievementNumberEntity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getUser_id() {
+        return user_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getAchievement_id() {
+        return achievement_id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setAchievement_id(Integer achievement_id) {
+        this.achievement_id = achievement_id;
+    }
+
+    public Float getNumber() {
+        return number;
+    }
+
+    public void setNumber(Float number) {
+        this.number = number;
     }
 
     @Override
     public String toString() {
         return "AchievementNumberEntity{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", user_id=" + user_id +
+                ", achievement_id=" + achievement_id +
+                ", number=" + number +
                 '}';
     }
 }
