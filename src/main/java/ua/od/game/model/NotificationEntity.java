@@ -1,6 +1,9 @@
 package ua.od.game.model;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0669dec5e6c84c87b313dfc09f20b4b233761ae5
 public class NotificationEntity {
 
     private Integer id;
@@ -88,11 +91,30 @@ public class NotificationEntity {
 
 
     public String message(int id) {
+<<<<<<< HEAD
         String message = "name = " + getName() + "description = " + getDescription();
 
         return message;
 
     }
 
+=======
+        return
+                "name = " + getName() +
+                "description = " + getDescription();
+    }
+
+    public Float buildingTriger(int buildingId) {
+        return getBuildingNumber();
+    }
+
+    public Float resourceTriger(int resourceId) {
+        return getResourceNumber();
+    }
+
+    public Float upgradeTriger(int upgradeId) {
+        return getUpgradeNumber();
+    }
+>>>>>>> 0669dec5e6c84c87b313dfc09f20b4b233761ae5
 }
 
