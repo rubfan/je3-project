@@ -10,29 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**@author DemianSH
+/**
+ * @author DemianSH
  **/
 
 public class CardDaoImpl implements CardDao {
 
-    private static final String ALL_CARDS_INF =
-            "SELECT cp.id, c.name card_name, cg.name card_group, CONCAT(cg.description,'/',c.description) description, " +
-                    " b1.name p1_building, cp.p1_building_number, b2.name p2_building, cp.p2_building_number, " +
-                    " bns.name necessary_building,cp.necessary_building_number, u1.name p1_upgrade, " +
-                    " cp.p1_upgrade_number, u2.name p2_upgrade, cp.p2_upgrade_number,uns.name necessary_upgrade, " +
-                    " cp.necessary_upgrade_number, r1.name p1_resource, cp.p1_resource_number, r2.name p2_resource, " +
-                    " cp.p2_resource_number " +
-                    " FROM Card_Product cp " +
-                    " LEFT OUTER JOIN Card c ON cp.card_id = c.id " +
-                    " LEFT OUTER JOIN Card_Group cg ON cp.card_group_id = cg.id " +
-                    " LEFT OUTER JOIN Building b1 ON cp.p1_building_id = b1.id " +
-                    " LEFT OUTER JOIN Building b2 ON cp.p2_building_id = b2.id " +
-                    " LEFT OUTER JOIN Building bns ON cp.necessary_building_id = bns.id " +
-                    " LEFT OUTER JOIN Upgrade u1 ON cp.p1_upgrade_id = u1.id " +
-                    " LEFT OUTER JOIN Upgrade u2 ON cp.p2_upgrade_id = u2.id " +
-                    " LEFT OUTER JOIN Upgrade uns ON cp.necessary_upgrade_id = uns.id " +
-                    " LEFT OUTER JOIN Resource r1 ON cp.p1_resource_id = r1.id " +
-                    " LEFT OUTER JOIN Resource r2 ON cp.p2_resource_id = r2.id; ";
+    private static final String ALL_CARDS_INF = "";
 
     @Override
     public List<CardEntity> getAllCardList() {
@@ -41,22 +25,13 @@ public class CardDaoImpl implements CardDao {
         return SqlHelper.createStatement(statment -> {
             ResultSet result = statment.executeQuery(ALL_CARDS_INF);
             List<CardEntity> cards = new ArrayList<>();
-            while(result.next()){
-                cards.add(new CardEntity(){{
+            while (result.next()) {
+                cards.add(new CardEntity() {{
                     setId(result.getInt("id"));
                     setName(result.getString("card_name"));
-                    setGroupId(result.getString("card_group"));
-                    setDescription(result.getString("description"));
-                    setP1Buildings(setMap(result.getString("p1_building"), result.getFloat("p1_building_number")));
-                    setP2Buildings(setMap(result.getString("p2_building"), result.getFloat("p2_building_number")));
-                    setNecessaryBuildings(setMap(result.getString("necessary_building"),
-                                                result.getFloat("necessary_building_number")));
-                    setP1Upgrades(setMap(result.getString("p1_upgrade"), result.getFloat("p1_upgrade_number")));
-                    setP2Upgrades(setMap(result.getString("p2_upgrade"), result.getFloat("p2_upgrade_number")));
-                    setNecessaryUpgrades(setMap(result.getString("necessary_upgrade"),
-                                                result.getFloat("necessary_upgrade_number")));
-                    setP1Resources(setMap(result.getString("p1_resource"), result.getFloat("p1_resource_number")));
-                    setP2Resources(setMap(result.getString("p2_resource"), result.getFloat("p2_resource_number")));
+                    setGroupId(result.getInt("card_group"));
+
+
                 }});
             }
             return cards;
@@ -64,9 +39,9 @@ public class CardDaoImpl implements CardDao {
 
     }
 
-    private static Map<String, Float> setMap (String val1, float val2) {
+    private static Map<String, Float> setMap(String val1, float val2) {
         Map<String, Float> map = new HashMap<>();
-        map.put(val1,val2);
+        map.put(val1, val2);
         return map;
     }
 }
