@@ -13,8 +13,8 @@ public class CardEntity {
     private Integer cardId;
     private Integer groupId;
     private String name;
-    private String descriptionCard;
-    private String descriptionGroup;
+    private String cardDescription;
+    private String groupDescription;
     private Map<Integer, Float> p1Buildings;
     private Map<Integer, Float> p2Buildings;
     private Map<Integer, Float> p1Resources;
@@ -59,20 +59,20 @@ public class CardEntity {
         this.name = name;
     }
 
-    public String getDescriptionCard() {
-        return descriptionCard;
+    public String getCardDescription() {
+        return cardDescription;
     }
 
-    public void setDescriptionCard(String descriptionCard) {
-        this.descriptionCard = descriptionCard;
+    public void setCardDescription(String cardDescription) {
+        this.cardDescription = cardDescription;
     }
 
-    public String getDescriptionGroup() {
-        return descriptionGroup;
+    public String getGroupDescription() {
+        return groupDescription;
     }
 
-    public void setDescriptionGroup(String descriptionGroup) {
-        this.descriptionGroup = descriptionGroup;
+    public void setGroupDescription(String groupDescription) {
+        this.groupDescription = groupDescription;
     }
 
     public Map<Integer, Float> getP1Buildings() {
