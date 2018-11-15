@@ -1,23 +1,17 @@
 package ua.od.game.repository.dao.impl;
 
 import org.junit.Assert;
-<<<<<<< HEAD
 import org.junit.Before;
 import org.junit.Test;
 import ua.od.game.model.NotificationEntity;
 import ua.od.game.repository.dao.DbTest;
 
-=======
-import org.junit.Test;
-import ua.od.game.repository.dao.DbTest;
-//import ua.od.game.repository.dao.impl.NotificationDaoImpl;
->>>>>>> 0669dec5e6c84c87b313dfc09f20b4b233761ae5
+
 
 import java.util.List;
 
 
 public class NotificationDaoImplTest extends DbTest {
-<<<<<<< HEAD
     NotificationDaoImpl nDAO;
 
     @Before
@@ -72,19 +66,3 @@ public class NotificationDaoImplTest extends DbTest {
 
     }
 }
-=======
-
-        NotificationDaoImpl nDAO = new NotificationDaoImpl();
-
-    @Test
-    public void getAllNotificationTest() {
-       List<NotificationDaoImpl> notificationDaoImplList = nDAO.getAllNotificationList(1);
-      System.out.println(nDAO.getAllNotificationList(1) );
-
-
-        Assert.assertFalse(notificationDaoImplList.isEmpty());
-    }
-
-}
-
->>>>>>> 0669dec5e6c84c87b313dfc09f20b4b233761ae5

@@ -13,7 +13,6 @@ import java.util.List;
 public class NotificationDaoImpl {
 
 
-<<<<<<< HEAD
     private List<NotificationEntity> list = new LinkedList<>();
     private List<Float> buildingTrigger = new LinkedList<>();
     private List<Float> resourceTrigger = new LinkedList<>();
@@ -41,36 +40,11 @@ public class NotificationDaoImpl {
             ResultSet rs = pstmt.executeQuery();
 
 
-=======
-    public List<NotificationDaoImpl> getAllNotificationList(Integer userID) {
-
-        String selection = "SELECT  Notification.id, Notification.name, Notification.description, " +
-                "Trigger_Notification.building_number, Trigger_Notification.resource_number, Trigger_Notification.upgrade_number, " +
-                "Trigger_Notification.building_id, Trigger_Notification.resource_id, Trigger_Notification.upgrade_id " +
-                " FROM Trigger_Notification " +
-                "  LEFT OUTER JOIN Notification " +
-                "  ON Trigger_Notification.id = Notification.id " +
-                " LEFT OUTER JOIN Notification AS n2 " +
-                " ON Trigger_Notification.building_id = Trigger_Notification.building_number " +
-                " LEFT OUTER JOIN Notification AS n3 " +
-                " ON Trigger_Notification.resource_id = Trigger_Notification.resource_number " +
-                " LEFT OUTER JOIN Notification AS n4 " +
-                " ON Trigger_Notification.upgrade_id = Trigger_Notification.upgrade_number;";
-
-        return SqlHelper.prepareStatement(selection, pstmt -> {
-          //  pstmt.setInt(1, userID);
-            ResultSet rs = pstmt.executeQuery();
-            List<NotificationEntity> list = new LinkedList<>();
-            List<NotificationEntity> buildingTriger = new LinkedList<>();
-            List<NotificationEntity> resourcetriger = new LinkedList<>();
-            List<NotificationEntity> upgradeTriger = new LinkedList<>();
->>>>>>> 0669dec5e6c84c87b313dfc09f20b4b233761ae5
             while (rs.next()) {
                 list.add(new NotificationEntity() {{
                     setId(rs.getInt("id"));
                     setName(rs.getString("name"));
                     setDescription(rs.getString("description"));
-<<<<<<< HEAD
                     setBuildingId(rs.getInt("building_id"));
                     setBuildingNumber(rs.getFloat("building_number"));
                     setResourceId(rs.getInt("resource_id"));
@@ -86,33 +60,11 @@ public class NotificationDaoImpl {
             }
 
 
-=======
-
-                }});
-
-                buildingTriger.add(new NotificationEntity() {{
-                    setBuildingId(rs.getInt("building_id"));
-                    setBuildingNumber(rs.getFloat("building_number"));
-                }});
-
-                resourcetriger.add(new NotificationEntity() {{
-                    setResourceId(rs.getInt("resource_id"));
-                    setResourceNumber(rs.getFloat("resource_number"));
-
-                }});
-                upgradeTriger.add(new NotificationEntity() {{
-                    setUpgradeId(rs.getInt("upgrade_id"));
-                    setUpgradeNumber(rs.getFloat("upgrade_number"));
-              }});
-           }
->>>>>>> 0669dec5e6c84c87b313dfc09f20b4b233761ae5
-
             return list;
         });
 
     }
 
-<<<<<<< HEAD
     public List<Float> getBuildingTrigger() {
 
         return buildingTrigger;
@@ -130,7 +82,3 @@ public class NotificationDaoImpl {
 
 }
 
-=======
-
-}
->>>>>>> 0669dec5e6c84c87b313dfc09f20b4b233761ae5
