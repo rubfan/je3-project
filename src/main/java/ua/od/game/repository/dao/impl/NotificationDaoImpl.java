@@ -12,13 +12,11 @@ import java.util.List;
 
 public class NotificationDaoImpl {
 
-
     private List<NotificationEntity> list = new LinkedList<>();
     private List<NotificationEntity> buildingTrigger = new LinkedList<>();
     private List<NotificationEntity> resourceTrigger = new LinkedList<>();
     private List<NotificationEntity> upgradeTrigger = new LinkedList<>();
     private List<String> messages = new LinkedList<>();
-
 
     public List<NotificationEntity> getAllNotificationList() {
 
@@ -37,9 +35,7 @@ public class NotificationDaoImpl {
 
 
         return SqlHelper.prepareStatement(selection, pstmt -> {
-            // pstmt.setInt(1, userID);
             ResultSet rs = pstmt.executeQuery();
-
 
             while (rs.next()) {
                 list.add(new NotificationEntity() {{
@@ -54,24 +50,28 @@ public class NotificationDaoImpl {
                     setUpgradeNumber(rs.getFloat("upgrade_number"));
                 }});
             }
+
             for (int i = 0; i < list.size(); i++) {
                 int x = i;
-                buildingTrigger.add( new NotificationEntity(){
+                buildingTrigger.add(new NotificationEntity() {
                     {
                         setBuildingId(list.get(x).getBuildingId());
                         setBuildingNumber(list.get(x).getBuildingNumber());
-                    }});
-                upgradeTrigger.add( new NotificationEntity(){
+                    }
+                });
+                upgradeTrigger.add(new NotificationEntity() {
                     {
                         setUpgradeId(list.get(x).getUpgradeId());
                         setUpgradeNumber(list.get(x).getUpgradeNumber());
-                    }});
+                    }
+                });
 
-                resourceTrigger.add( new NotificationEntity() {
+                resourceTrigger.add(new NotificationEntity() {
                     {
                         setResourceId(list.get(x).getResourceId());
                         setResourceNumber(list.get(x).getResourceNumber());
-                    }});
+                    }
+                });
 
                 messages.add(list.get(i).message());
             }

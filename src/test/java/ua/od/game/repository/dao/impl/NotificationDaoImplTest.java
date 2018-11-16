@@ -3,9 +3,9 @@ package ua.od.game.repository.dao.impl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import ua.od.game.model.NotificationEntity;
 import ua.od.game.repository.dao.DbTest;
-
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class NotificationDaoImplTest extends DbTest {
         List<NotificationEntity> buildingList = nDAO.getBuildingTrigger();
         for (int i = 0; i < buildingList.size(); i++) {
 
-            System.out.println("id = " + buildingList.get(i).getBuildingId()+ "; Building Number = " + buildingList.get(i).getBuildingNumber() + ";");
+            System.out.println("id = " + buildingList.get(i).getBuildingId() + "; Building Number = " + buildingList.get(i).getBuildingNumber() + ";");
         }
         Assert.assertFalse(buildingList.isEmpty());
     }
@@ -56,7 +56,7 @@ public class NotificationDaoImplTest extends DbTest {
         List<NotificationEntity> upgradesList = nDAO.getUpgradeTrigger();
         for (int i = 0; i < upgradesList.size(); i++) {
 
-            System.out.println("id = " + upgradesList.get(i).getUpgradeId()+ "; Upgrade Number = " + upgradesList.get(i).getUpgradeNumber() + ";");
+            System.out.println("id = " + upgradesList.get(i).getUpgradeId() + "; Upgrade Number = " + upgradesList.get(i).getUpgradeNumber() + ";");
         }
         Assert.assertFalse(upgradesList.isEmpty());
     }

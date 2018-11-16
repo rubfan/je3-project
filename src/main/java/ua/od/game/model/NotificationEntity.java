@@ -87,8 +87,8 @@ public class NotificationEntity {
     }
 
 
-
     public String message() {
+
         String message = "name = " + getName() + ", description = " + getDescription();
 
         return message;
