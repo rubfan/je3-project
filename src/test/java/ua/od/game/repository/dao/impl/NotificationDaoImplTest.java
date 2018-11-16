@@ -7,7 +7,6 @@ import ua.od.game.model.NotificationEntity;
 import ua.od.game.repository.dao.DbTest;
 
 
-
 import java.util.List;
 
 
@@ -21,10 +20,10 @@ public class NotificationDaoImplTest extends DbTest {
 
     @Test
     public void getAllNotificationTest() {
-        List<NotificationEntity> notificationDaoImplList = nDAO.getAllNotificationList(1);
+        List<NotificationEntity> notificationDaoImplList = nDAO.getAllNotificationList();
 
         for (int i = 0; i < notificationDaoImplList.size(); i++) {
-            System.out.print("id = " + notificationDaoImplList.get(i).getId() + "; user = " + notificationDaoImplList.get(i).getName()
+            System.out.println("id = " + notificationDaoImplList.get(i).getId() + "; user = " + notificationDaoImplList.get(i).getName()
                     + "; Description = " + notificationDaoImplList.get(i).getDescription() + "; Building Number = " + notificationDaoImplList.get(i).getBuildingNumber() +
                     "; Resource Number = " + notificationDaoImplList.get(i).getResourceNumber() + "; Upgrade Number = " + notificationDaoImplList.get(i).getUpgradeNumber());
 
@@ -34,35 +33,41 @@ public class NotificationDaoImplTest extends DbTest {
 
     @Test
     public void getBuildingTriggerTest() {
-        List<Float> buildingList = nDAO.getBuildingTrigger();
-        nDAO.getAllNotificationList(2);
+        List<NotificationEntity> buildingList = nDAO.getBuildingTrigger();
         for (int i = 0; i < buildingList.size(); i++) {
-            int x = i + 1;
-            System.out.println("id = " + x + "; Building Number = " + buildingList.get(i) + ";");
+
+            System.out.println("id = " + buildingList.get(i).getBuildingId()+ "; Building Number = " + buildingList.get(i).getBuildingNumber() + ";");
         }
         Assert.assertFalse(buildingList.isEmpty());
     }
 
     @Test
     public void getAResourceTriggerTest() {
-        List<Float> resourceList = nDAO.getResourceTrigger();
-        nDAO.getAllNotificationList(2);
+        List<NotificationEntity> resourceList = nDAO.getResourceTrigger();
         for (int i = 0; i < resourceList.size(); i++) {
-            int x = i + 1;
-            System.out.println("id = " + x + "; Resource Number = " + resourceList.get(i) + ";");
+
+            System.out.println("id = " + resourceList.get(i).getResourceId() + "; Resource Number = " + resourceList.get(i).getResourceNumber() + ";");
         }
         Assert.assertFalse(resourceList.isEmpty());
     }
 
     @Test
     public void getUpgradesTriggerTest() {
-        List<Float> upgradesList = nDAO.getUpgradeTrigger();
-        nDAO.getAllNotificationList(1);
+        List<NotificationEntity> upgradesList = nDAO.getUpgradeTrigger();
         for (int i = 0; i < upgradesList.size(); i++) {
-            int x = i + 1;
-            System.out.println("id = " + x + "; Upgrade Number = " + upgradesList.get(i) + ";");
+
+            System.out.println("id = " + upgradesList.get(i).getUpgradeId()+ "; Upgrade Number = " + upgradesList.get(i).getUpgradeNumber() + ";");
         }
         Assert.assertFalse(upgradesList.isEmpty());
+    }
 
+    @Test
+    public void getMessages() {
+        List<String> messagesList = nDAO.getMessages();
+        for (int i = 0; i < messagesList.size(); i++) {
+            int x = i + 1;
+            System.out.println("id = " + x + ", Message: " + messagesList.get(i) + ";");
+        }
+        Assert.assertFalse(messagesList.isEmpty());
     }
 }

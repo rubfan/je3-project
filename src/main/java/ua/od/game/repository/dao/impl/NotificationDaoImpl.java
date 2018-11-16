@@ -14,12 +14,13 @@ public class NotificationDaoImpl {
 
 
     private List<NotificationEntity> list = new LinkedList<>();
-    private List<Float> buildingTrigger = new LinkedList<>();
-    private List<Float> resourceTrigger = new LinkedList<>();
-    private List<Float> upgradeTrigger = new LinkedList<>();
+    private List<NotificationEntity> buildingTrigger = new LinkedList<>();
+    private List<NotificationEntity> resourceTrigger = new LinkedList<>();
+    private List<NotificationEntity> upgradeTrigger = new LinkedList<>();
+    private List<String> messages = new LinkedList<>();
 
 
-    public List<NotificationEntity> getAllNotificationList(Integer userID) {
+    public List<NotificationEntity> getAllNotificationList() {
 
         String selection = "SELECT  notification.id, notification.name, notification.description, " +
                 "trigger_notification.building_number, trigger_notification.resource_number, trigger_notification.upgrade_number, " +
@@ -54,9 +55,25 @@ public class NotificationDaoImpl {
                 }});
             }
             for (int i = 0; i < list.size(); i++) {
-                buildingTrigger.add(i, list.get(i).getBuildingNumber());
-                upgradeTrigger.add(list.get(i).getUpgradeNumber());
-                resourceTrigger.add(list.get(i).getResourceNumber());
+                int x = i;
+                buildingTrigger.add( new NotificationEntity(){
+                    {
+                        setBuildingId(list.get(x).getBuildingId());
+                        setBuildingNumber(list.get(x).getBuildingNumber());
+                    }});
+                upgradeTrigger.add( new NotificationEntity(){
+                    {
+                        setUpgradeId(list.get(x).getUpgradeId());
+                        setUpgradeNumber(list.get(x).getUpgradeNumber());
+                    }});
+
+                resourceTrigger.add( new NotificationEntity() {
+                    {
+                        setResourceId(list.get(x).getResourceId());
+                        setResourceNumber(list.get(x).getResourceNumber());
+                    }});
+
+                messages.add(list.get(i).message());
             }
 
 
@@ -65,19 +82,27 @@ public class NotificationDaoImpl {
 
     }
 
-    public List<Float> getBuildingTrigger() {
+    public List<NotificationEntity> getBuildingTrigger() {
 
+        getAllNotificationList();
         return buildingTrigger;
     }
 
-    public List<Float> getResourceTrigger() {
+    public List<NotificationEntity> getResourceTrigger() {
 
+        getAllNotificationList();
         return resourceTrigger;
     }
 
-    public List<Float> getUpgradeTrigger() {
+    public List<NotificationEntity> getUpgradeTrigger() {
 
+        getAllNotificationList();
         return upgradeTrigger;
+    }
+
+    public List<String> getMessages() {
+        getAllNotificationList();
+        return messages;
     }
 
 }
