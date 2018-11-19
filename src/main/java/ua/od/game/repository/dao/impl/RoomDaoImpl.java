@@ -4,6 +4,8 @@ import ua.od.game.model.RoomEntity;
 import ua.od.game.repository.dao.RoomDao;
 import ua.od.game.repository.helper.SqlHelper;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
@@ -60,23 +62,26 @@ public class RoomDaoImpl implements RoomDao {
 
     public Boolean joinRoom(Integer roomId, Integer userId) {
         if (!(checkForExistenceOfUser(userId) && checkForExistenceOfRoom(roomId)))
-           return false;
-        else return SqlHelper.prepareStatement(CHECK_ROOM_IS_FULL_QUERY, statementForFullRoomCheck -> {
-            statementForFullRoomCheck.setInt(1, roomId);
-            ResultSet resultSetFullRoomCheck = statementForFullRoomCheck.executeQuery();
+            return false;
+        else return SqlHelper.prepareStatement(CHECK_ROOM_IS_FULL_QUERY, statement -> {
+            statement.setInt(1, roomId);
+            ResultSet resultSetFullRoomCheck = statement.executeQuery();
             resultSetFullRoomCheck.next();
             if (resultSetFullRoomCheck.getInt("user_1_id") > 0 &&
-                    resultSetFullRoomCheck.getInt("user_2_id") > 0)
+                    resultSetFullRoomCheck.getInt("user_2_id") > 0) {
                 return false;
-            else return SqlHelper.prepareStatement(JOIN_ROOM_QUERY_ROOM_QUERY, statementForRoom -> {
-                statementForRoom.setInt(1, userId);
-                statementForRoom.setInt(2, userId);
-                statementForRoom.setInt(3, userId);
-                statementForRoom.setInt(4, roomId);
-                if (userInTheRoom(userId))
+            }
+            else {
+                statement = statement.getConnection().prepareStatement(JOIN_ROOM_QUERY_ROOM_QUERY);
+                statement.setInt(1, userId);
+                statement.setInt(2, userId);
+                statement.setInt(3, userId);
+                statement.setInt(4, roomId);
+                if (isUserInTheRoom(userId)) {
                     leaveRoom(userId);
-                return statementForRoom.executeUpdate()> 0 ? true : false;
-            });
+                }
+                return statement.executeUpdate()> 0 ? true : false;
+            }
         });
     }
 
@@ -89,7 +94,7 @@ public class RoomDaoImpl implements RoomDao {
             statementForRoom.setInt(3, userId);
             statementForRoom.setInt(4, userId);
             return statementForRoom.executeUpdate() > 0 ? true : false;
-       });
+        });
     }
 
     private boolean checkForExistenceOfRoom(Integer id) {
@@ -108,7 +113,7 @@ public class RoomDaoImpl implements RoomDao {
         });
     }
 
-    private boolean userInTheRoom(Integer id) {
+    private boolean isUserInTheRoom(Integer id) {
         return SqlHelper.prepareStatement(USER_IN_THE_ROOM, statementCheckForUserInTheRoom -> {
             statementCheckForUserInTheRoom.setInt(1, id);
             statementCheckForUserInTheRoom.setInt(2, id);
