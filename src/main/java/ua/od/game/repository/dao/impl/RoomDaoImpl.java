@@ -77,10 +77,11 @@ public class RoomDaoImpl implements RoomDao {
                 statement.setInt(2, userId);
                 statement.setInt(3, userId);
                 statement.setInt(4, roomId);
-                if (IsUserInTheRoom(userId)) {
+                if (isUserInTheRoom(userId)) {
                     leaveRoom(userId);
                 }
-                return statement.executeUpdate()> 0 ? true : false; }
+                return statement.executeUpdate()> 0 ? true : false;
+            }
         });
     }
 
@@ -112,7 +113,7 @@ public class RoomDaoImpl implements RoomDao {
         });
     }
 
-    private boolean IsUserInTheRoom(Integer id) {
+    private boolean isUserInTheRoom(Integer id) {
         return SqlHelper.prepareStatement(USER_IN_THE_ROOM, statementCheckForUserInTheRoom -> {
             statementCheckForUserInTheRoom.setInt(1, id);
             statementCheckForUserInTheRoom.setInt(2, id);
