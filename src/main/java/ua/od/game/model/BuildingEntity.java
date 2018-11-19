@@ -1,9 +1,12 @@
 package ua.od.game.model;
 
+import java.util.Map;
+
 public class BuildingEntity {
     private Integer id;
     private String name;
     private String description;
+    private Map<ResourceEntity,Float> resource;
 
 
     public Integer getId() {
@@ -30,6 +33,14 @@ public class BuildingEntity {
         this.description = description;
     }
 
+    public Map<ResourceEntity, Float> getResource() {
+        return resource;
+    }
+
+    public void setResource(Map<ResourceEntity, Float> resource) {
+        this.resource = resource;
+    }
+
     @Override
     public String toString() {
         return new String("Building: " +
@@ -37,9 +48,4 @@ public class BuildingEntity {
                 " name = " + getName() +
                 " description = " + getDescription());
     }
-
-
-
-
-
 }
