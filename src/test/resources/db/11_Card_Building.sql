@@ -1,4 +1,4 @@
-INSERT INTO `Card_Building` (id, set_id, building_id, number)
+INSERT INTO `Card_Building` (id, building_set_id, building_id, number)
   VALUES
   (1,1,1,1),
   (2,2,2,1),

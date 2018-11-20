@@ -1,20 +1,10 @@
-package ua.od.game.model;
+package ua.od.game.model.cardEntity;
 
 import java.util.Map;
 
+public class CardProductEntity {
 
-/**
- * @author DemianSH
- **/
-
-public class CardEntity {
-
-    private Integer id;
-    private Integer cardId;
-    private Integer groupId;
-    private String name;
-    private String cardDescription;
-    private String groupDescription;
+    Integer cardId;
     private Map<Integer, Float> p1Buildings;
     private Map<Integer, Float> p2Buildings;
     private Map<Integer, Float> p1Resources;
@@ -24,16 +14,7 @@ public class CardEntity {
     private Map<Integer, Float> necessaryBuildings;
     private Map<Integer, Float> necessaryUpgrades;
 
-    public CardEntity() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public CardProductEntity(){}
 
     public Integer getCardId() {
         return cardId;
@@ -41,38 +22,6 @@ public class CardEntity {
 
     public void setCardId(Integer cardId) {
         this.cardId = cardId;
-    }
-
-    public Integer getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCardDescription() {
-        return cardDescription;
-    }
-
-    public void setCardDescription(String cardDescription) {
-        this.cardDescription = cardDescription;
-    }
-
-    public String getGroupDescription() {
-        return groupDescription;
-    }
-
-    public void setGroupDescription(String groupDescription) {
-        this.groupDescription = groupDescription;
     }
 
     public Map<Integer, Float> getP1Buildings() {

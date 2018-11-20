@@ -1,10 +1,13 @@
 package ua.od.game.repository.dao.impl;
 
-import ua.od.game.model.CardEntity;
+import ua.od.game.model.cardEntity.CardEntity;
+import ua.od.game.model.cardEntity.CardGroupEntity;
+import ua.od.game.model.cardEntity.CardProductEntity;
 import ua.od.game.repository.dao.CardDao;
 import ua.od.game.repository.helper.SqlHelper;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,76 +20,223 @@ import java.util.Map;
 public class CardDaoImpl implements CardDao {
 
     private static final String QUERY_CARD_DESC =
-            " SELECT c.id, c.name, cp.card_group_id, c.description, cg.description " +
-            " FROM Card c " +
-            " INNER JOIN Card_Product cp ON c.id = cp.card_id " +
-            " INNER JOIN Card_Group cg ON cp.card_group_id = cg.id;";
-
-    private static final String QUERY_CARD_BUILD =
-            "SELECT cp.card_id, cb1.building_id, cb1.number, cb2.building_id, cb2.number, " +
-                    "       cp.necessary_building_id, cp.necessary_building_number " +
-                    " FROM Card_Product cp " +
-                    " LEFT JOIN Card_Building cb1 ON cp.p1_set_building_id = cb1.set_id " +
-                    " LEFT JOIN Card_Building cb2 ON cp.p2_set_building_id = cb2.set_id " +
-                    " ORDER BY cp.card_id; ";
+            " SELECT c.id card_id, c.name card_name, cp.card_group_id `group_id`, c.description card_desc\n" +
+                    " FROM Card c \n" +
+                    " LEFT JOIN Card_Product cp ON c.id = cp.card_id\n" +
+                    " WHERE cp.card_group_id IS NOT NULL\n" +
+                    " ORDER BY c.id;";
 
     private static final String QUERY_CARD_RESOURCE =
-            "SELECT  cp.card_id, cr1.resource_id, cr1.number, cr2.resource_id, cr2.number " +
-                    " FROM Card_Product cp " +
-                    " LEFT JOIN Card_Resource cr1 ON cp.p1_set_resource_id = cr1.set_id " +
-                    " LEFT JOIN Card_Resource cr2 ON cp.p2_set_building_id = cr2.set_id " +
-                    " ORDER BY cp.card_id; ";
+            "SELECT cp.card_id, cr1.resource_id player1_id, cr1.number player1_number, cr2.resource_id player2_id,\n" +
+                    "       cr2.number player2_number\n" +
+                    "FROM Card_Product cp\n" +
+                    "LEFT JOIN Card_Resource cr1 ON cp.p1_set_resource_id = cr1.resource_set_id\n" +
+                    "LEFT JOIN Card_Resource cr2 ON cp.p2_set_resource_id = cr2.resource_set_id\n" +
+                    "ORDER BY cp.card_id;\n";
+
+    private static final String QUERY_CARD_BUILDING =
+            "SELECT cp.card_id, cb1.building_id player1_id, cb1.number player1_number, cb2.building_id player2_id,\n" +
+                    "       cb2.number player2_number, cp.necessary_building_id necessary_id," +
+                    " cp.necessary_building_number necessary_number\n" +
+                    "FROM Card_Product cp\n" +
+                    "LEFT JOIN Card_Building cb1 ON cp.p1_set_building_id = cb1.building_set_id\n" +
+                    "LEFT JOIN Card_Building cb2 ON cp.p2_set_building_id = cb2.building_set_id\n" +
+                    "ORDER BY cp.card_id;\n";
 
     private static final String QUERY_CARD_UPGRADE =
-            "SELECT cp.card_id, cu1.upgrade_id, cu1.number, cu2.upgrade_id, cu2.number, " +
-                    "       cp.necessary_upgrade_id, cp.necessary_upgrade_number " +
-                    " FROM Card_Product cp " +
-                    " LEFT JOIN Card_Upgrade cu1 ON cp.p1_set_upgrade_id = cu1.set_id " +
-                    " LEFT JOIN Card_Upgrade cu2 ON cp.p2_set_upgrade_id = cu2.set_id " +
-                    " ORDER BY cp.card_id;";
+            "SELECT cp.card_id, cu1.upgrade_id player1_id, cu1.number player1_number, cu2.upgrade_id player2_id,\n" +
+                    "       cu2.number player2_number, cp.necessary_upgrade_id necessary_id," +
+                    " cp.necessary_upgrade_number necessary_number\n" +
+                    "FROM Card_Product cp\n" +
+                    "LEFT JOIN Card_Upgrade cu1 ON cp.p1_set_upgrade_id = cu1.upgrade_set_id\n" +
+                    "LEFT JOIN Card_Upgrade cu2 ON cp.p2_set_upgrade_id = cu2.upgrade_set_id\n" +
+                    "ORDER BY cp.card_id;\n";
+
+
+    private Map<Integer, Float> player1Map;
+    private Map<Integer, Float> player2Map;
+    private Map<Integer, Float> necessaryMap;
+    private Integer curentId = 1; //Variable is using in the methods setProductResources for correct fill Map
 
     @Override
     public List<CardEntity> getAllCardList() {
         return SqlHelper.createStatement(statment -> {
             ResultSet rsDesc = statment.executeQuery(QUERY_CARD_DESC);
-            ResultSet rsBuild = statment.executeQuery(QUERY_CARD_BUILD);
+            List<CardEntity> cardSet = setCard(rsDesc);//create main collection Cards
+            ResultSet rsGroup = statment.executeQuery("SELECT id, name, description FROM Card_Group;");
+            List<CardGroupEntity> groupSet = setGroup(rsGroup);
             ResultSet rsResource = statment.executeQuery(QUERY_CARD_RESOURCE);
+            //create collection CardProducts objects and fill its HashMaps Resources
+            List<CardProductEntity> productSet = setProductResources(rsResource);
+            ResultSet rsBuilding = statment.executeQuery(QUERY_CARD_BUILDING);
+            //only fill collection CardProducts HashMaps Buildings
+            setProductBuildings(rsBuilding, productSet);
             ResultSet rsUpgrade = statment.executeQuery(QUERY_CARD_UPGRADE);
-            List<CardEntity> cards = new ArrayList<>();
-            while (rsDesc.next()) {
-                cards.add(new CardEntity() {{
-                    setId(rsDesc.getInt("c.id"));
-                    setName(rsDesc.getString("c.name"));
-                    setGroupId(rsDesc.getInt("cp.card_group_id"));
-                    setCardDescription(rsDesc.getString("c.description"));
-                    setGroupDescription(rsDesc.getString("cg.description"));
-                    if(rsDesc.getInt("c.id") == rsBuild.getInt("card_id")){
-                        setP1Buildings(setMap(rsBuild.getInt("cb1.building_id"),rsBuild.getFloat("cb1.number")));
-                        setP2Buildings(setMap(rsBuild.getInt("cb2.building_id"),rsBuild.getFloat("cb2.number")));
-                        setNecessaryBuildings(setMap(rsBuild.getInt("cp.necessary_building_id"),
-                                                     rsBuild.getFloat("cp.necessary_building_number")));
-                    }
-                    if(rsDesc.getInt("c.id") == rsResource.getInt("cp.card_id")){
-                        setP1Resources(setMap(rsResource.getInt("cr1.resource_id"),
-                                              rsResource.getFloat("cr1.number")));
-                        setP2Resources(setMap(rsResource.getInt("cr2.resource_id"),
-                                              rsResource.getFloat("cr2.number")));
-                    }
-                    if(rsDesc.getInt("c.id") == rsUpgrade.getInt("cp.card_id")){
-                        setP1Upgrades(setMap(rsUpgrade.getInt("cu1.upgrade_id"),rsUpgrade.getFloat("cu1.number")));
-                        setP2Upgrades(setMap(rsUpgrade.getInt("cu2.upgrade_id"),rsUpgrade.getFloat("cu2.number")));
-                        setNecessaryUpgrades(setMap(rsUpgrade.getInt("cp.necessary_upgrade_id"),
-                                                    rsUpgrade.getFloat("cp.necessary_upgrade_number")));
-                    }
-                }});
-            }
-            return cards;
+            //only fill collection CardProducts HashMaps Upgrades
+            setProductUpgrades(rsUpgrade, productSet);
+            addGroupObj(cardSet, groupSet);
+            addProductObj(cardSet, productSet);
+            return cardSet;
         });
     }
 
-    private static Map<Integer, Float> setMap(Integer val1, float val2) {
-        Map<Integer, Float> map = new HashMap<>();
-        map.put(val1, val2);
-        return map;
+    private List<CardEntity> setCard(ResultSet resl) throws SQLException {
+        List<CardEntity> cardSet = new ArrayList<>();
+        while (resl.next()) {
+            cardSet.add(new CardEntity() {{
+                setId(resl.getInt("card_id"));
+                setName(resl.getString("card_name"));
+                setDescription(resl.getString("card_desc"));
+                setGroupId(resl.getInt("group_id"));
+            }});
+        }
+        return cardSet;
+    }
+
+    private List<CardGroupEntity> setGroup(ResultSet resl) throws SQLException {
+        List<CardGroupEntity> groupSet = new ArrayList<>();
+        while (resl.next()) {
+            groupSet.add(new CardGroupEntity() {{
+                setId(resl.getInt("id"));
+                setName(resl.getString("name"));
+                setDescription(resl.getString("description"));
+            }});
+        }
+        return groupSet;
+    }
+
+    private void addGroupObj(List<CardEntity> cards, List<CardGroupEntity> groupSet) {
+        cards.forEach((CardEntity) -> {
+            groupSet.forEach((CardGroupEntity) -> {
+                if (CardGroupEntity.getId() == CardEntity.getGroupId()) {
+                    CardEntity.setGroup(CardGroupEntity);
+                }
+            });
+        });
+    }
+
+    private void addProductObj(List<CardEntity> cards, List<CardProductEntity> productSet) {
+        cards.forEach((CardEntity) -> {
+            productSet.forEach((CardProductEntity) -> {
+                if (CardProductEntity.getCardId() == CardEntity.getId()) {
+                    CardEntity.setProduct(CardProductEntity);
+                }
+            });
+        });
+    }
+
+    private List<CardProductEntity> setProductResources(ResultSet resl) throws SQLException {
+        List<CardProductEntity> productSet = new ArrayList<>();
+        while (resl.next()) {
+            if (curentId != resl.getInt("card_id")) {
+                productSet.add(setResource(curentId, player1Map, player2Map));
+            }
+            if (player1Map == null || curentId != resl.getInt("card_id")) {
+                player1Map = new HashMap<>();
+            }
+            player1Map.put(resl.getInt("player1_id"), resl.getFloat("player1_number"));
+            if (player2Map == null || curentId != resl.getInt("card_id")) {
+                player2Map = new HashMap<>();
+            }
+            player2Map.put(resl.getInt("player2_id"), resl.getFloat("player2_number"));
+
+            curentId = resl.getInt("card_id");
+        }
+        productSet.add(setResource(curentId, player1Map, player2Map));
+        //remove Map for next operation
+        player1Map = null;
+        player2Map = null;
+        return productSet;
+    }
+
+    private void setProductBuildings(ResultSet resl, List<CardProductEntity> productSet) throws SQLException {
+        while (resl.next()) {
+            if (curentId != resl.getInt("card_id")) {
+                setBuildings(curentId, player1Map, player2Map, necessaryMap, productSet);
+            }
+
+            if (player1Map == null || curentId != resl.getInt("card_id")) {
+                player1Map = new HashMap<>();
+            }
+            player1Map.put(resl.getInt("player1_id"), resl.getFloat("player1_number"));
+
+            if (player2Map == null || curentId != resl.getInt("card_id")) {
+                player2Map = new HashMap<>();
+            }
+            player2Map.put(resl.getInt("player2_id"), resl.getFloat("player2_number"));
+
+            if (necessaryMap == null || curentId != resl.getInt("card_id")) {
+                necessaryMap = new HashMap<>();
+            }
+            necessaryMap.put(resl.getInt("necessary_id"), resl.getFloat("necessary_number"));
+
+            curentId = resl.getInt("card_id");
+        }
+        setBuildings(curentId, player1Map, player2Map, necessaryMap, productSet);
+        //remove Map for next operation
+        player1Map = null;
+        player2Map = null;
+        necessaryMap = null;
+    }
+
+    private void setProductUpgrades(ResultSet resl, List<CardProductEntity> productSet) throws SQLException {
+        while (resl.next()) {
+            if (curentId != resl.getInt("card_id")) {
+                setUpgrades(curentId, player1Map, player2Map, necessaryMap, productSet);
+            }
+
+            if (player1Map == null || curentId != resl.getInt("card_id")) {
+                player1Map = new HashMap<>();
+            }
+            player1Map.put(resl.getInt("player1_id"), resl.getFloat("player1_number"));
+
+            if (player2Map == null || curentId != resl.getInt("card_id")) {
+                player2Map = new HashMap<>();
+            }
+            player2Map.put(resl.getInt("player2_id"), resl.getFloat("player2_number"));
+
+            if (necessaryMap == null || curentId != resl.getInt("card_id")) {
+                necessaryMap = new HashMap<>();
+            }
+            necessaryMap.put(resl.getInt("necessary_id"), resl.getFloat("necessary_number"));
+
+            curentId = resl.getInt("card_id");
+        }
+        setUpgrades(curentId, player1Map, player2Map, necessaryMap, productSet);
+        //remove Map for next operation
+        player1Map = null;
+        player2Map = null;
+        necessaryMap = null;
+    }
+
+    private CardProductEntity setResource(Integer id, Map<Integer, Float> player1, Map<Integer, Float> player2) {
+        CardProductEntity cardProductExmp = new CardProductEntity() {{
+            setCardId(id);
+            setP1Resources(player1);
+            setP2Resources(player2);
+        }};
+        return cardProductExmp;
+    }
+
+    private void setBuildings(Integer id, Map<Integer, Float> player1, Map<Integer, Float> player2,
+                        Map<Integer, Float> necessary, List<CardProductEntity> cardProductExmp) {
+        cardProductExmp.forEach((CardProductEntity) -> {
+            if (CardProductEntity.getCardId() == id) {
+                CardProductEntity.setP1Buildings(player1);
+                CardProductEntity.setP2Buildings(player2);
+                CardProductEntity.setNecessaryBuildings(necessary);
+            }
+        });
+    }
+
+    private void setUpgrades(Integer id, Map<Integer, Float> player1, Map<Integer, Float> player2,
+                        Map<Integer, Float> necessary, List<CardProductEntity> cardProductExmp) {
+        cardProductExmp.forEach((CardProductEntity) -> {
+            if (CardProductEntity.getCardId() == id) {
+                CardProductEntity.setP1Upgrades(player1);
+                CardProductEntity.setP2Upgrades(player2);
+                CardProductEntity.setNecessaryUpgrades(necessary);
+            }
+        });
     }
 }

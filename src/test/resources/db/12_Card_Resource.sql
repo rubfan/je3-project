@@ -1,4 +1,4 @@
-INSERT INTO `Card_Resource` (id, set_id, resource_id, number)
+INSERT INTO `Card_Resource` (id, resource_set_id, resource_id, number)
   VALUES
   (1, 1, 1, -150),
   (2,1,2,-150),
