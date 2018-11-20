@@ -2,6 +2,10 @@ package ua.od.game.model.cardEntity;
 
 import java.util.Map;
 
+/**
+ * @author DemianSH
+ **/
+
 public class CardProductEntity {
 
     Integer cardId;

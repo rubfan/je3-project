@@ -140,10 +140,8 @@ CREATE TABLE `Card_Product` (
 	`p2_set_resource_id` INT,
 	`p1_set_upgrade_id` INT,
 	`p2_set_upgrade_id` INT,
-	`necessary_building_id` INT,
-	`necessary_upgrade_id` INT,
-	`necessary_building_number` FLOAT,
-	`necessary_upgrade_number` FLOAT,
+	`necessary_building_set_id` INT,
+	`necessary_upgrade_set_id` INT,
 	PRIMARY KEY (`id`)
 );
 
@@ -230,8 +228,8 @@ ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk4` FOREIGN KEY (`p1_se
 ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk5` FOREIGN KEY (`p2_set_resource_id`) REFERENCES `Card_Resource`(`resource_st_id`);
 ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk6` FOREIGN KEY (`p1_set_upgrade_id`) REFERENCES `Card_Upgrade`(`upgrade_st_id`);
 ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk7` FOREIGN KEY (`p2_set_upgrade_id`) REFERENCES `Card_Upgrade`(`upgrade_st_id`);
-ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk8` FOREIGN KEY (`necessary_building_id`) REFERENCES `Building`(`building_st_id`);
-ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk9` FOREIGN KEY (`necessary_upgrade_id`) REFERENCES `Upgrade`(`upgrade_st_id`);
+ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk8` FOREIGN KEY (`necessary_building_set_id`) REFERENCES `Card_Building`(`building_st_id`);
+ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk9` FOREIGN KEY (`necessary_upgrade_set_id`) REFERENCES `Card_Upgrade`(`upgrade_st_id`);
 
 ALTER TABLE `Trigger_Notification` ADD CONSTRAINT `Trigger_Notification_fk0` FOREIGN KEY (`notification_id`) REFERENCES `Notification`(`id`);
 ALTER TABLE `Trigger_Notification` ADD CONSTRAINT `Trigger_Notification_fk1` FOREIGN KEY (`building_id`) REFERENCES `Building`(`id`);

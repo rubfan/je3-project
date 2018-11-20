@@ -1,5 +1,9 @@
 package ua.od.game.model.cardEntity;
 
+/**
+ * @author DemianSH
+ **/
+
 public class CardGroupEntity {
 
     private Integer id;

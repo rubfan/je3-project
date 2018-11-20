@@ -26,5 +26,15 @@ public class CardDaoImplTest extends DbTest {
     public void getAllCardListtest() {
         List<CardEntity> cardsTest = cardDao.getAllCardList();
         Assert.assertFalse(cardsTest.isEmpty());
+        Assert.assertEquals("Granary", cardsTest.get(0).getName());
+        Assert.assertFalse(cardsTest.get(37).getProduct().getP1Resources().isEmpty());
+        Assert.assertTrue(cardsTest.get(50).getProduct().getP1Resources().size() > 0);
+
+        cardsTest.forEach((CardEntity) -> {
+            System.out.println("id: " + CardEntity.getId() + " name: " + CardEntity.getName() + " group: " +
+                    CardEntity.getGroup().getName() + " bl: " + CardEntity.getProduct().getP1Buildings().size() +
+                    " rs: " + CardEntity.getProduct().getP1Resources().size() + " up: " +
+                    CardEntity.getProduct().getP1Upgrades().size());
+        });
     }
 }
