@@ -21,11 +21,10 @@ public class NotificationDaoImplTest extends DbTest {
     @Test
     public void getAllNotificationTest() {
         List<NotificationEntity> notificationDaoImplList = nDAO.getAllNotificationList();
-
+        System.out.println(notificationDaoImplList.size());
         for (int i = 0; i < notificationDaoImplList.size(); i++) {
             System.out.println("id = " + notificationDaoImplList.get(i).getId() + "; user = " + notificationDaoImplList.get(i).getName()
-                    + "; Description = " + notificationDaoImplList.get(i).getDescription() + "; Building Number = " + notificationDaoImplList.get(i).getBuildingNumber() +
-                    "; Resource Number = " + notificationDaoImplList.get(i).getResourceNumber() + "; Upgrade Number = " + notificationDaoImplList.get(i).getUpgradeNumber());
+                    + "; Description = " + notificationDaoImplList.get(i).getDescription());
 
         }
         Assert.assertFalse(notificationDaoImplList.isEmpty());
@@ -63,11 +62,12 @@ public class NotificationDaoImplTest extends DbTest {
 
     @Test
     public void getMessages() {
-        List<String> messagesList = nDAO.getMessages();
+        List<NotificationEntity> messagesList = nDAO.getAllNotificationList();
         for (int i = 0; i < messagesList.size(); i++) {
-            int x = i + 1;
-            System.out.println("id = " + x + ", Message: " + messagesList.get(i) + ";");
+            System.out.println(" Message " + messagesList.get(i).message() + " ;");
         }
         Assert.assertFalse(messagesList.isEmpty());
     }
+
+
 }

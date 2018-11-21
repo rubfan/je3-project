@@ -1,5 +1,6 @@
 package ua.od.game.repository.dao.impl;
 
+import ua.od.game.model.BuildingEntity;
 import ua.od.game.repository.helper.SqlHelper;
 
 import java.sql.ResultSet;
@@ -16,71 +17,74 @@ public class NotificationDaoImpl {
     private List<NotificationEntity> buildingTrigger = new LinkedList<>();
     private List<NotificationEntity> resourceTrigger = new LinkedList<>();
     private List<NotificationEntity> upgradeTrigger = new LinkedList<>();
-    private List<String> messages = new LinkedList<>();
+
 
     public List<NotificationEntity> getAllNotificationList() {
 
-        String selection = "SELECT  notification.id, notification.name, notification.description, " +
+        String message = "SELECT notification.id, notification.name, notification.description, trigger_notification.notification_id, " +
                 "trigger_notification.building_number, trigger_notification.resource_number, trigger_notification.upgrade_number, " +
                 "trigger_notification.building_id, trigger_notification.resource_id, trigger_notification.upgrade_id " +
-                " FROM trigger_notification " +
-                "  LEFT OUTER JOIN notification " +
-                "  ON trigger_notification.id = notification.id " +
-                " LEFT OUTER JOIN notification AS n2 " +
-                " ON trigger_notification.building_id = trigger_notification.building_number " +
-                " LEFT OUTER JOIN notification AS n3 " +
-                " ON trigger_notification.resource_id = trigger_notification.resource_number " +
-                " LEFT OUTER JOIN notification AS n4 " +
-                " ON trigger_notification.upgrade_id = trigger_notification.upgrade_number;";
+                "FROM trigger_notification " +
+                " LEFT JOIN notification " +
+                "ON trigger_notification.notification_id = notification.id " +
+                "LEFT JOIN notification AS n2 " +
+                "ON trigger_notification.building_id = trigger_notification.building_number " +
+                "LEFT JOIN notification AS n3 " +
+                "ON trigger_notification.resource_id = trigger_notification.resource_number " +
+                "LEFT JOIN notification AS n4 " +
+                "ON trigger_notification.upgrade_id = trigger_notification.upgrade_number; ";
 
 
-        return SqlHelper.prepareStatement(selection, pstmt -> {
+        return SqlHelper.prepareStatement(message, pstmt -> {
             ResultSet rs = pstmt.executeQuery();
-
+            int x = 1;
             while (rs.next()) {
-                list.add(new NotificationEntity() {{
-                    setId(rs.getInt("id"));
-                    setName(rs.getString("name"));
-                    setDescription(rs.getString("description"));
+
+                if (rs.getInt("id") != x - 1) {
+                    list.add(new NotificationEntity() {{
+                        setId(rs.getInt("id"));
+                        setName(rs.getString("name"));
+                        setDescription(rs.getString("description"));
+                    }});
+                    x++;
+                }
+
+
+                buildingTrigger.add(new NotificationEntity() {{
+                    setNotificationId(rs.getInt("notification.id"));
                     setBuildingId(rs.getInt("building_id"));
                     setBuildingNumber(rs.getFloat("building_number"));
+
+                }});
+
+                resourceTrigger.add(new NotificationEntity() {{
+                    setNotificationId(rs.getInt("notification.id"));
                     setResourceId(rs.getInt("resource_id"));
                     setResourceNumber(rs.getFloat("resource_number"));
+                }});
+                upgradeTrigger.add(new NotificationEntity() {{
+                    setNotificationId(rs.getInt("notification.id"));
                     setUpgradeId(rs.getInt("upgrade_id"));
                     setUpgradeNumber(rs.getFloat("upgrade_number"));
+
                 }});
             }
 
-            for (int i = 0; i < list.size(); i++) {
-                int x = i;
-                buildingTrigger.add(new NotificationEntity() {
-                    {
-                        setBuildingId(list.get(x).getBuildingId());
-                        setBuildingNumber(list.get(x).getBuildingNumber());
-                    }
-                });
-                upgradeTrigger.add(new NotificationEntity() {
-                    {
-                        setUpgradeId(list.get(x).getUpgradeId());
-                        setUpgradeNumber(list.get(x).getUpgradeNumber());
-                    }
-                });
-
-                resourceTrigger.add(new NotificationEntity() {
-                    {
-                        setResourceId(list.get(x).getResourceId());
-                        setResourceNumber(list.get(x).getResourceNumber());
-                    }
-                });
-
-                messages.add(list.get(i).message());
-            }
-
-
-            return list;
+//for (int i = 0; i< buildingTrigger.size(); i++){
+//    int notifId = buildingTrigger.get(i).getNotificationId();
+//    int buildId = buildingTrigger.get(i).getBuildingId();
+//    Float buildNum = buildingTrigger.get(i).getBuildingNumber();
+//    list.set(notifId,buildingTrigger.set)
+//    setExectBuildingTrigger(buildingTrigger.get(i).getNotificationId()-1);
+//    System.out.println(buildingTrigger.get(i).getNotificationId() + " --");
+}
+ return list;
         });
 
+
     }
+
+
 
     public List<NotificationEntity> getBuildingTrigger() {
 
@@ -100,10 +104,6 @@ public class NotificationDaoImpl {
         return upgradeTrigger;
     }
 
-    public List<String> getMessages() {
-        getAllNotificationList();
-        return messages;
-    }
 
 }
 
