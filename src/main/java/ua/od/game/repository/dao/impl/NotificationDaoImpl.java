@@ -77,7 +77,7 @@ public class NotificationDaoImpl {
 //    list.set(notifId,buildingTrigger.set)
 //    setExectBuildingTrigger(buildingTrigger.get(i).getNotificationId()-1);
 //    System.out.println(buildingTrigger.get(i).getNotificationId() + " --");
-}
+//}
  return list;
         });
 
