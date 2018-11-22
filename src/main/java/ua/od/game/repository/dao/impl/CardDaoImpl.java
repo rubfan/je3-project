@@ -21,10 +21,15 @@ import java.util.Map;
 public class CardDaoImpl implements CardDao {
 
     private static final String QUERY_CARD =
-            " SELECT c.id card_id, c.name card_name, cp.card_group_id `group_id`, c.description card_desc " +
+            " SELECT c.id card_id, c.name, c.description desc " +
                     " FROM Card c " +
                     " LEFT JOIN Card_Product cp ON c.id = cp.card_id " +
                     " ORDER BY c.id;";
+
+    private static final String QUERY_GROUP =
+            "SELECT cp.card_id, cg.name, cg.description desc " +
+                    " FROM Card_Product cp " +
+                    " LEFT JOIN Card_Group cg ON cp.card_group_id = cg.id;";
 
     private static final String QUERY_RESOURCE =
             "SELECT cp.card_id, cr1.resource_id player1_id, cr1.number player1_number, cr2.resource_id player2_id, " +
@@ -57,7 +62,7 @@ public class CardDaoImpl implements CardDao {
         return SqlHelper.createStatement(statment -> {
             ResultSet resultCards = statment.executeQuery(QUERY_CARD);
             List<CardEntity> cards = fillCards(resultCards);//create main collection Cards
-            ResultSet resultGroups = statment.executeQuery("SELECT id, name, description FROM Card_Group;");
+            ResultSet resultGroups = statment.executeQuery(QUERY_GROUP);
             List<CardGroupEntity> groups = fillGroups(resultGroups);
             ResultSet resultResources = statment.executeQuery(QUERY_RESOURCE);
             //create collection CardProducts objects and fill its HashMaps Resources
@@ -79,10 +84,9 @@ public class CardDaoImpl implements CardDao {
         List<CardEntity> cardSet = new ArrayList<>();
         while (resl.next()) {
             cardSet.add(new CardEntity() {{
-                setId(resl.getInt("card_id"));
-                setName(resl.getString("card_name"));
-                setDescription(resl.getString("card_desc"));
-                setGroupId(resl.getInt("group_id"));
+                setCardId(resl.getInt("card_id"));
+                setName(resl.getString("name"));
+                setDescription(resl.getString("desc"));
             }});
         }
         return cardSet;
@@ -92,7 +96,7 @@ public class CardDaoImpl implements CardDao {
         List<CardGroupEntity> groupSet = new ArrayList<>();
         while (resl.next()) {
             groupSet.add(new CardGroupEntity() {{
-                setId(resl.getInt("id"));
+                setCardId(resl.getInt("card_id"));
                 setName(resl.getString("name"));
                 setDescription(resl.getString("description"));
             }});
@@ -103,7 +107,7 @@ public class CardDaoImpl implements CardDao {
     private void matchGroupToCards(List<CardEntity> cards, List<CardGroupEntity> groupSet) {
         cards.forEach((CardEntity) -> {
             groupSet.forEach((CardGroupEntity) -> {
-                if (CardGroupEntity.getId() == CardEntity.getGroupId()) {
+                if (CardGroupEntity.getCardId() == CardEntity.getCardId()) {
                     CardEntity.setGroup(CardGroupEntity);
                 }
             });
@@ -113,7 +117,7 @@ public class CardDaoImpl implements CardDao {
     private void matchProductToCards(List<CardEntity> cards, List<CardProductEntity> productSet) {
         cards.forEach((CardEntity) -> {
             productSet.forEach((CardProductEntity) -> {
-                if (CardProductEntity.getCardId() == CardEntity.getId()) {
+                if (CardProductEntity.getCardId() == CardEntity.getCardId()) {
                     CardEntity.setProduct(CardProductEntity);
                 }
             });

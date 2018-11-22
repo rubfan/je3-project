@@ -6,22 +6,21 @@ package ua.od.game.model.card;
 
 public class CardEntity {
 
-    private Integer id;
+    private Integer cardId;
     private String name;
     private String description;
-    private Integer groupId;
     private CardGroupEntity group;
     private CardProductEntity product;
 
     public CardEntity() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getCardId() {
+        return cardId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCardId(Integer cardId) {
+        this.cardId = cardId;
     }
 
     public String getName() {
@@ -38,14 +37,6 @@ public class CardEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
     }
 
     public CardGroupEntity getGroup() {

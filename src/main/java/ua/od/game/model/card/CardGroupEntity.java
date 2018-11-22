@@ -6,18 +6,18 @@ package ua.od.game.model.card;
 
 public class CardGroupEntity {
 
-    private Integer id;
+    private Integer cardId;
     private String name;
     private String description;
 
     public CardGroupEntity(){}
 
-    public Integer getId() {
-        return id;
+    public Integer getCardId() {
+        return cardId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCardId(Integer cardId) {
+        this.cardId = cardId;
     }
 
     public String getName() {
