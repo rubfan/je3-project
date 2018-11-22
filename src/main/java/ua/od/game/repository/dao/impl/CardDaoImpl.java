@@ -4,6 +4,7 @@ import ua.od.game.model.card.CardEntity;
 import ua.od.game.model.card.CardGroupEntity;
 import ua.od.game.model.card.CardProductEntity;
 import ua.od.game.repository.dao.CardDao;
+import ua.od.game.repository.dao.Matching;
 import ua.od.game.repository.helper.SqlHelper;
 
 import java.sql.ResultSet;
@@ -23,7 +24,6 @@ public class CardDaoImpl implements CardDao {
             " SELECT c.id card_id, c.name card_name, cp.card_group_id `group_id`, c.description card_desc " +
                     " FROM Card c " +
                     " LEFT JOIN Card_Product cp ON c.id = cp.card_id " +
-                    " WHERE cp.card_group_id IS NOT NULL " +
                     " ORDER BY c.id;";
 
     private static final String QUERY_RESOURCE =
@@ -61,13 +61,14 @@ public class CardDaoImpl implements CardDao {
             List<CardGroupEntity> groups = fillGroups(resultGroups);
             ResultSet resultResources = statment.executeQuery(QUERY_RESOURCE);
             //create collection CardProducts objects and fill its HashMaps Resources
-            List<CardProductEntity> products = manipulQueryResource(resultResources);
+            List<CardProductEntity> products = queryProcessResource(resultResources);
             ResultSet resultBuildings = statment.executeQuery(QUERY_BUILDING);
-            //only fill collection CardProducts HashMaps Buildings
-            manipulQueryBuildings(resultBuildings, products);
+            //only match collection CardProducts HashMaps Buildings
+            CardDaoImpl cdi = new CardDaoImpl();
+            queryProcess(resultBuildings, products, cdi::matchBuildingsToProducts);
             ResultSet resultUpgrades = statment.executeQuery(QUERY_UPGRADE);
-            //only fill collection CardProducts HashMaps Upgrades
-            manipulQueryUpgrades(resultUpgrades, products);
+            //only match collection CardProducts HashMaps Upgrades
+            queryProcess(resultUpgrades, products, cdi::matchUpgradesToProducts);
             matchGroupToCards(cards, groups);
             matchProductToCards(cards, products);
             return cards;
@@ -119,7 +120,7 @@ public class CardDaoImpl implements CardDao {
         });
     }
 
-    private List<CardProductEntity> manipulQueryResource(ResultSet resl) throws SQLException {
+    private List<CardProductEntity> queryProcessResource(ResultSet resl) throws SQLException {
         List<CardProductEntity> productSet = new ArrayList<>();
         Map<Integer, Float> player1Map = null;
         Map<Integer, Float> player2Map = null;
@@ -143,14 +144,14 @@ public class CardDaoImpl implements CardDao {
         return productSet;
     }
 
-    private void manipulQueryBuildings(ResultSet resl, List<CardProductEntity> productSet) throws SQLException {
+    private void queryProcess(ResultSet resl, List<CardProductEntity> productSet, Matching mP) throws SQLException {
         Map<Integer, Float> player1Map = null;
         Map<Integer, Float> player2Map = null;
         Map<Integer, Float> necessaryMap = null;
         Integer curentId = 1;
         while (resl.next()) {
             if (curentId != resl.getInt("card_id")) {
-                matchBuildingsToProducts(curentId, player1Map, player2Map, necessaryMap, productSet);
+                mP.matchToProducts(curentId, player1Map, player2Map, necessaryMap, productSet);
             }
 
             if (player1Map == null || curentId != resl.getInt("card_id")) {
@@ -170,38 +171,10 @@ public class CardDaoImpl implements CardDao {
 
             curentId = resl.getInt("card_id");
         }
-        matchBuildingsToProducts(curentId, player1Map, player2Map, necessaryMap, productSet);
+        mP.matchToProducts(curentId, player1Map, player2Map, necessaryMap, productSet);
     }
 
-    private void manipulQueryUpgrades (ResultSet resl, List<CardProductEntity> productSet) throws SQLException {
-        Map<Integer, Float> player1Map = null;
-        Map<Integer, Float> player2Map = null;
-        Map<Integer, Float> necessaryMap = null;
-        Integer curentId = 1;
-        while (resl.next()) {
-            if (curentId != resl.getInt("card_id")) {
-                matchResourceToProducts(curentId, player1Map, player2Map, necessaryMap, productSet);
-            }
 
-            if (player1Map == null || curentId != resl.getInt("card_id")) {
-                player1Map = new HashMap<>();
-            }
-            player1Map.put(resl.getInt("player1_id"), resl.getFloat("player1_number"));
-
-            if (player2Map == null || curentId != resl.getInt("card_id")) {
-                player2Map = new HashMap<>();
-            }
-            player2Map.put(resl.getInt("player2_id"), resl.getFloat("player2_number"));
-
-            if (necessaryMap == null || curentId != resl.getInt("card_id")) {
-                necessaryMap = new HashMap<>();
-            }
-            necessaryMap.put(resl.getInt("necessary_id"), resl.getFloat("necessary_number"));
-
-            curentId = resl.getInt("card_id");
-        }
-        matchResourceToProducts(curentId, player1Map, player2Map, necessaryMap, productSet);
-    }
 
     private CardProductEntity fillProductResources(Integer id, Map<Integer, Float> player1, Map<Integer, Float> player2) {
         CardProductEntity cardProduct = new CardProductEntity() {{
@@ -213,7 +186,7 @@ public class CardDaoImpl implements CardDao {
     }
 
     private void matchBuildingsToProducts(Integer id, Map<Integer, Float> player1, Map<Integer, Float> player2,
-                                          Map<Integer, Float> necessary, List<CardProductEntity> cardProductExmp) {
+                                                 Map<Integer, Float> necessary, List<CardProductEntity> cardProductExmp) {
         cardProductExmp.forEach((CardProductEntity) -> {
             if (CardProductEntity.getCardId() == id) {
                 CardProductEntity.setP1Buildings(player1);
@@ -223,7 +196,7 @@ public class CardDaoImpl implements CardDao {
         });
     }
 
-    private void matchResourceToProducts(Integer id, Map<Integer, Float> player1, Map<Integer, Float> player2,
+    private void matchUpgradesToProducts(Integer id, Map<Integer, Float> player1, Map<Integer, Float> player2,
                                          Map<Integer, Float> necessary, List<CardProductEntity> cardProductExmp) {
         cardProductExmp.forEach((CardProductEntity) -> {
             if (CardProductEntity.getCardId() == id) {
