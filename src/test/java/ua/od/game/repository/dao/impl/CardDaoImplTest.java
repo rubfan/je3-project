@@ -31,7 +31,7 @@ public class CardDaoImplTest extends DbTest {
         Assert.assertTrue(cardsTest.get(50).getProduct().getP1Resources().size() > 0);
 
         cardsTest.forEach((CardEntity) -> {
-            System.out.println("id: " + CardEntity.getId() + " name: " + CardEntity.getName() + " group: " +
+            System.out.println("id: " + CardEntity.getCardId() + " name: " + CardEntity.getName() + " group: " +
                     CardEntity.getGroup().getName() + " bl: " + CardEntity.getProduct().getP1Buildings().size() +
                     " rs: " + CardEntity.getProduct().getP1Resources().size() + " up: " +
                     CardEntity.getProduct().getP1Upgrades().size());
