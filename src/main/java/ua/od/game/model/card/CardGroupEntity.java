@@ -1,4 +1,4 @@
-package ua.od.game.model.cardEntity;
+package ua.od.game.model.card;
 
 /**
  * @author DemianSH

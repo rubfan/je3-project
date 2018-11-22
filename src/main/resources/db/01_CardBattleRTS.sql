@@ -108,43 +108,43 @@ CREATE TABLE `Card_Group` (
 
 CREATE TABLE `Card_Building` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `building_set_id` INT ,
+  `set_id` INT ,
   `building_id` INT NOT NULL,
   `number` FLOAT,
  	PRIMARY KEY (`id`),
- 	INDEX (`building_set_id`)
+ 	INDEX (`set_id`)
 );
 
 CREATE TABLE `Card_Resource` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `resource_set_id` INT,
+  `set_id` INT,
   `resource_id` INT NOT NULL,
   `number` FLOAT,
 	PRIMARY KEY (`id`),
-	INDEX (`resource_set_id`)
+	INDEX (`set_id`)
 );
 
 CREATE TABLE `Card_Upgrade` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `upgrade_set_id` INT,
+  `set_id` INT,
   `upgrade_id` INT NOT NULL,
   `number` FLOAT,
 	PRIMARY KEY (`id`),
-	INDEX (`upgrade_set_id`)
+	INDEX (`set_id`)
 );
 
 CREATE TABLE `Card_Product` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`card_id` INT NOT NULL,
 	`card_group_id` INT NOT NULL,
-	`p1_set_building_id` INT,
-	`p2_set_building_id` INT,
-	`p1_set_resource_id` INT,
-	`p2_set_resource_id` INT,
-	`p1_set_upgrade_id` INT,
-	`p2_set_upgrade_id` INT,
-	`necessary_building_set_id` INT,
-	`necessary_upgrade_set_id` INT,
+	`p1_set_building` INT,
+	`p2_set_building` INT,
+	`p1_set_resource` INT,
+	`p2_set_resource` INT,
+	`p1_set_upgrade` INT,
+	`p2_set_upgrade` INT,
+	`necessary_building_set` INT,
+	`necessary_upgrade_set` INT,
 	PRIMARY KEY (`id`)
 );
 
@@ -225,14 +225,14 @@ ALTER TABLE `Card_Upgrade` ADD CONSTRAINT `Card_Upgrade_fk1` FOREIGN KEY (`upgra
 
 ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk0` FOREIGN KEY (`card_id`) REFERENCES `Card`(`id`);
 ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk1` FOREIGN KEY (`card_group_id`) REFERENCES `Card_Group`(`id`);
-ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk2` FOREIGN KEY (`p1_set_building_id`) REFERENCES `Card_Building`(`building_set_id`);
-ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk3` FOREIGN KEY (`p2_set_building_id`) REFERENCES `Card_Building`(`building_set_id`);
-ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk4` FOREIGN KEY (`p1_set_resource_id`) REFERENCES `Card_Resource`(`resource_set_id`);
-ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk5` FOREIGN KEY (`p2_set_resource_id`) REFERENCES `Card_Resource`(`resource_set_id`);
-ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk6` FOREIGN KEY (`p1_set_upgrade_id`) REFERENCES `Card_Upgrade`(`upgrade_set_id`);
-ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk7` FOREIGN KEY (`p2_set_upgrade_id`) REFERENCES `Card_Upgrade`(`upgrade_set_id`);
-ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk8` FOREIGN KEY (`necessary_building_set_id`) REFERENCES `Card_Building`(`building_set_id`);
-ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk9` FOREIGN KEY (`necessary_upgrade_set_id`) REFERENCES `Card_Upgrade`(`upgrade_set_id`);
+ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk2` FOREIGN KEY (`p1_set_building`) REFERENCES `Card_Building`(`set_id`);
+ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk3` FOREIGN KEY (`p2_set_building`) REFERENCES `Card_Building`(`set_id`);
+ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk4` FOREIGN KEY (`p1_set_resource`) REFERENCES `Card_Resource`(`set_id`);
+ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk5` FOREIGN KEY (`p2_set_resource`) REFERENCES `Card_Resource`(`set_id`);
+ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk6` FOREIGN KEY (`p1_set_upgrade`) REFERENCES `Card_Upgrade`(`set_id`);
+ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk7` FOREIGN KEY (`p2_set_upgrade`) REFERENCES `Card_Upgrade`(`set_id`);
+ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk8` FOREIGN KEY (`necessary_building_set`) REFERENCES `Card_Building`(`set_id`);
+ALTER TABLE `Card_Product` ADD CONSTRAINT `Card_Product_fk9` FOREIGN KEY (`necessary_upgrade_set`) REFERENCES `Card_Upgrade`(`set_id`);
 
 ALTER TABLE `Trigger_Notification` ADD CONSTRAINT `Trigger_Notification_fk0` FOREIGN KEY (`notification_id`) REFERENCES `Notification`(`id`);
 ALTER TABLE `Trigger_Notification` ADD CONSTRAINT `Trigger_Notification_fk1` FOREIGN KEY (`building_id`) REFERENCES `Building`(`id`);

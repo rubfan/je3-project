@@ -1,6 +1,6 @@
 package ua.od.game.repository.dao;
 
-import ua.od.game.model.cardEntity.CardEntity;
+import ua.od.game.model.card.CardEntity;
 
 import java.util.List;
 

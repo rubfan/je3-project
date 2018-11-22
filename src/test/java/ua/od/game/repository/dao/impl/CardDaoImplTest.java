@@ -6,7 +6,7 @@ import org.junit.Assert;
 
 import java.util.List;
 
-import ua.od.game.model.cardEntity.CardEntity;
+import ua.od.game.model.card.CardEntity;
 import ua.od.game.repository.dao.DbTest;
 
 /**

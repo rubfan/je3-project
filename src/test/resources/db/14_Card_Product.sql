@@ -1,8 +1,7 @@
  INSERT INTO `Card_Product`
-(id, card_id, card_group_id, p1_set_building_id, p2_set_building_id, p1_set_resource_id, p2_set_resource_id,
- p1_set_upgrade_id, p2_set_upgrade_id, necessary_building_set_id, necessary_upgrade_set_id)
+(id, card_id, card_group_id, p1_set_building, p2_set_building, p1_set_resource, p2_set_resource,
+ p1_set_upgrade, p2_set_upgrade, necessary_building_set, necessary_upgrade_set)
 VALUES
-
   /*BUILDING CARDS*/
   (1,1,1,1,null,1,null,null,null,null,null),
   (2,2,1,2,null,2,null,null,null,null,null),
@@ -56,5 +55,14 @@ VALUES
   (49,49,2,49,null,49,null,27,null,136,null),
   (50,50,2,50,null,50,null,28,null,137,null),
   (51,51,2,51,null,51,null,29,null,138,null),
-  (52,52,2,52,null,52,null,30,null,139,null);
-
+  (52,52,2,52,null,52,null,30,null,139,null),
+/*ACTION CARDS */
+  (53,53,3,null,null,53,54,null,null,107,null),
+  (54,54,3,null,null,55,56,null,null,141,102),
+  (55,55,3,null,null,57,58,null,null,140,null),
+  (56,56,3,null,null,59,60,null,null,142,103),
+  (57,57,3,null,null,61,62,null,null,143,null),
+  (58,58,3,null,null,63,64,null,null,144,null),
+  (59,59,3,null,null,65,66,null,null,145,null),
+  (60,60,3,null,53,67,null,null,null,146,104),
+  (61,61,3,null,54,68,69,null,null,147,105);

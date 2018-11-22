@@ -1,6 +1,6 @@
  INSERT INTO `Card_Product`
-(id, card_id, card_group_id, p1_set_building_id, p2_set_building_id, p1_set_resource_id, p2_set_resource_id,
- p1_set_upgrade_id, p2_set_upgrade_id, necessary_building_set_id, necessary_upgrade_set_id)
+(id, card_id, card_group_id, p1_set_building, p2_set_building, p1_set_resource, p2_set_resource,
+ p1_set_upgrade, p2_set_upgrade, necessary_building_set, necessary_upgrade_set)
 VALUES
 
   /*BUILDING CARDS*/

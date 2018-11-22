@@ -1,4 +1,4 @@
-INSERT INTO `Card_Upgrade` (upgrade_set_id, upgrade_id, number)
+INSERT INTO `Card_Upgrade` (set_id, upgrade_id, number)
   VALUES
     /*UPGRADES*/
     (1,1,1),

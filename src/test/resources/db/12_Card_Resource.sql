@@ -1,4 +1,4 @@
-INSERT INTO `Card_Resource` (resource_set_id, resource_id, number)
+INSERT INTO `Card_Resource` (set_id, resource_id, number)
 VALUES
   /*BUILDING RESOURCE SETS*/
   (1,1,-150),

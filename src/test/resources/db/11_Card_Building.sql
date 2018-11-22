@@ -1,4 +1,4 @@
-INSERT INTO `Card_Building` (building_set_id, building_id, number)
+INSERT INTO `Card_Building` (set_id, building_id, number)
 VALUES
   /*BUILD BUILDING BUILDING SETS*/
   (1,1,1),

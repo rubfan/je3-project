@@ -1,6 +1,6 @@
 INSERT INTO Card (id, name, description)
 VALUES
-
+    /*BUILDING CARDS*/
     ('1', 'Granary', 'Build new granary. More food - more warriors - more power.'),
     ('2', 'Chicken House', 'text card'),
     ('3', 'Incubator', ''),
@@ -23,7 +23,7 @@ VALUES
     ('20', 'Altar', ''),
     ('21', 'School of Magic', ''),
     ('22', 'Zikkurat', ''),
-
+    /*UPGRADE CARDS*/
     ('23', 'Upgrade Granary', ''),
     ('24', 'Upgrade Granary and chicken house', 'Produce eggs'),
     ('25', 'Initialize the chickens', 'Produce chickens'),
@@ -53,4 +53,14 @@ VALUES
     ('49', 'New armor', 'Produce cocks prophets'),
     ('50', 'Steel feathers', 'Produce cocks prophets'),
     ('51', 'Armed and dangerous', 'Produce cocks prophets'),
-    ('52', 'Disney Princess? Really?', 'Produce cocks prophets')
+    ('52', 'Disney Princess? Really?', 'Produce cocks prophets'),
+    /*ACTION CARDS*/
+    ('53', 'Attack Enemy by battle cocks',''),
+    ('54','Master''s feast',''),
+    ('55','Elixir of youth',''),
+    ('56','Hungry fox',''),
+    ('57','Attack Enemy by cocks with hammers',''),
+    ('58','Attack Enemy by cocks with throwing',''),
+    ('59','Thief of shit',''),
+    ('60','Army of Mouse',''),
+    ('61','Dung Storm','');
