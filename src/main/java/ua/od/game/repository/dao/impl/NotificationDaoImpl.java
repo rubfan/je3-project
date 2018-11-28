@@ -73,12 +73,56 @@ public class NotificationDaoImpl {
 
 
             }
+
+            buildingToList();
+            resourcesToList();
+            upgradesToList();
+
             return list;
+
         });
 
 
     }
 
+    public void buildingToList() {
+
+        list.forEach((NotificationEntity) -> {
+            buildingTrigger.forEach((BuildingTriggerEntity) -> {
+
+                if (NotificationEntity.getId() == BuildingTriggerEntity.getNotificationId()) {
+
+                    NotificationEntity.setBuildingTrigger(BuildingTriggerEntity);
+
+                }
+
+            });
+        });
+    }
+
+    public void resourcesToList() {
+
+        list.forEach((NotificationEntity) -> {
+            resourceTrigger.forEach((ResourceTriggerEntity) -> {
+
+                if (NotificationEntity.getId() == ResourceTriggerEntity.getNotificationId()) {
+                    NotificationEntity.setResourceTrigger(ResourceTriggerEntity);
+                }
+            });
+        });
+    }
+
+    public void upgradesToList() {
+
+        list.forEach((NotificationEntity) -> {
+            upgradeTrigger.forEach((UpgradeTriggerEntity) -> {
+
+                if (NotificationEntity.getId() == UpgradeTriggerEntity.getNotificationId()) {
+                    NotificationEntity.setUpgradeTrigger(UpgradeTriggerEntity);
+                }
+            });
+        });
+    }
 
 
     public List<BuildingTriggerEntity> getBuildingTrigger() {
