@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ua.od.game.model.NotificationEntity;
+import ua.od.game.model.TriggersEntity.BuildingTriggerEntity;
+import ua.od.game.model.TriggersEntity.ResourceTriggerEntity;
+import ua.od.game.model.TriggersEntity.UpgradeTriggerEntity;
 import ua.od.game.repository.dao.DbTest;
 
 import java.util.List;
@@ -32,7 +35,7 @@ public class NotificationDaoImplTest extends DbTest {
 
     @Test
     public void getBuildingTriggerTest() {
-        List<NotificationEntity> buildingList = nDAO.getBuildingTrigger();
+        List<BuildingTriggerEntity> buildingList = nDAO.getBuildingTrigger();
         for (int i = 0; i < buildingList.size(); i++) {
 
             System.out.println("id = " + buildingList.get(i).getBuildingId() + "; Building Number = " + buildingList.get(i).getBuildingNumber() + ";");
@@ -42,7 +45,7 @@ public class NotificationDaoImplTest extends DbTest {
 
     @Test
     public void getAResourceTriggerTest() {
-        List<NotificationEntity> resourceList = nDAO.getResourceTrigger();
+        List<ResourceTriggerEntity> resourceList = nDAO.getResourceTrigger();
         for (int i = 0; i < resourceList.size(); i++) {
 
             System.out.println("id = " + resourceList.get(i).getResourceId() + "; Resource Number = " + resourceList.get(i).getResourceNumber() + ";");
@@ -52,7 +55,7 @@ public class NotificationDaoImplTest extends DbTest {
 
     @Test
     public void getUpgradesTriggerTest() {
-        List<NotificationEntity> upgradesList = nDAO.getUpgradeTrigger();
+        List<UpgradeTriggerEntity> upgradesList = nDAO.getUpgradeTrigger();
         for (int i = 0; i < upgradesList.size(); i++) {
 
             System.out.println("id = " + upgradesList.get(i).getUpgradeId() + "; Upgrade Number = " + upgradesList.get(i).getUpgradeNumber() + ";");

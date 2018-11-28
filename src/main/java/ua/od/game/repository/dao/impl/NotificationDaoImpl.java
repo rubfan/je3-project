@@ -1,6 +1,8 @@
 package ua.od.game.repository.dao.impl;
 
-import ua.od.game.model.BuildingEntity;
+import ua.od.game.model.TriggersEntity.BuildingTriggerEntity;
+import ua.od.game.model.TriggersEntity.ResourceTriggerEntity;
+import ua.od.game.model.TriggersEntity.UpgradeTriggerEntity;
 import ua.od.game.repository.helper.SqlHelper;
 
 import java.sql.ResultSet;
@@ -14,9 +16,9 @@ import java.util.List;
 public class NotificationDaoImpl {
 
     private List<NotificationEntity> list = new LinkedList<>();
-    private List<NotificationEntity> buildingTrigger = new LinkedList<>();
-    private List<NotificationEntity> resourceTrigger = new LinkedList<>();
-    private List<NotificationEntity> upgradeTrigger = new LinkedList<>();
+    private List<BuildingTriggerEntity> buildingTrigger = new LinkedList<>();
+    private List<ResourceTriggerEntity> resourceTrigger = new LinkedList<>();
+    private List<UpgradeTriggerEntity> upgradeTrigger = new LinkedList<>();
 
 
     public List<NotificationEntity> getAllNotificationList() {
@@ -50,35 +52,28 @@ public class NotificationDaoImpl {
                 }
 
 
-                buildingTrigger.add(new NotificationEntity() {{
+                buildingTrigger.add(new BuildingTriggerEntity() {{
                     setNotificationId(rs.getInt("notification.id"));
                     setBuildingId(rs.getInt("building_id"));
                     setBuildingNumber(rs.getFloat("building_number"));
 
                 }});
 
-                resourceTrigger.add(new NotificationEntity() {{
+                resourceTrigger.add(new ResourceTriggerEntity() {{
                     setNotificationId(rs.getInt("notification.id"));
                     setResourceId(rs.getInt("resource_id"));
                     setResourceNumber(rs.getFloat("resource_number"));
                 }});
-                upgradeTrigger.add(new NotificationEntity() {{
+                upgradeTrigger.add(new UpgradeTriggerEntity() {{
                     setNotificationId(rs.getInt("notification.id"));
                     setUpgradeId(rs.getInt("upgrade_id"));
                     setUpgradeNumber(rs.getFloat("upgrade_number"));
 
                 }});
-            }
 
-//for (int i = 0; i< buildingTrigger.size(); i++){
-//    int notifId = buildingTrigger.get(i).getNotificationId();
-//    int buildId = buildingTrigger.get(i).getBuildingId();
-//    Float buildNum = buildingTrigger.get(i).getBuildingNumber();
-//    list.set(notifId,buildingTrigger.set)
-//    setExectBuildingTrigger(buildingTrigger.get(i).getNotificationId()-1);
-//    System.out.println(buildingTrigger.get(i).getNotificationId() + " --");
-//}
- return list;
+
+            }
+            return list;
         });
 
 
@@ -86,19 +81,19 @@ public class NotificationDaoImpl {
 
 
 
-    public List<NotificationEntity> getBuildingTrigger() {
+    public List<BuildingTriggerEntity> getBuildingTrigger() {
 
         getAllNotificationList();
         return buildingTrigger;
     }
 
-    public List<NotificationEntity> getResourceTrigger() {
+    public List<ResourceTriggerEntity> getResourceTrigger() {
 
         getAllNotificationList();
         return resourceTrigger;
     }
 
-    public List<NotificationEntity> getUpgradeTrigger() {
+    public List<UpgradeTriggerEntity> getUpgradeTrigger() {
 
         getAllNotificationList();
         return upgradeTrigger;

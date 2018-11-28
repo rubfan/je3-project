@@ -1,6 +1,10 @@
 package ua.od.game.model;
 
 
+import ua.od.game.model.TriggersEntity.BuildingTriggerEntity;
+import ua.od.game.model.TriggersEntity.ResourceTriggerEntity;
+import ua.od.game.model.TriggersEntity.UpgradeTriggerEntity;
+
 import java.util.List;
 
 public class NotificationEntity {
@@ -17,9 +21,13 @@ public class NotificationEntity {
     private int upgradeId;
     private Float upgradeNumber;
 
-    private List<Float> buildingTrigger;
-    private List<Float> resourceTrigger;
-    private List<Float> upgradeTrigger;
+    private BuildingTriggerEntity buildingTrigger;
+    private ResourceTriggerEntity resourceTrigger;
+    private UpgradeTriggerEntity upgradeTrigger;
+
+public NotificationEntity(){
+
+}
 
 
     public Integer getId() {
@@ -38,34 +46,6 @@ public class NotificationEntity {
         this.notificationId = notificationId;
     }
 
-    public List<Float> getBuildingTrigger() {
-        return buildingTrigger;
-    }
-
-    public void setExectBuildingTrigger(int buildingId, Float buildingNumber) {
-        buildingTrigger.add(buildingId, buildingNumber);
-    }
-
-    public List<Float> getResourceTrigger() {
-        return resourceTrigger;
-    }
-
-    public void setExectResourceTrigger(int resourceId, Float resourceNumber) {
-        resourceTrigger.add(resourceId, resourceNumber);
-    }
-
-    public void setBuildingTrigger(int buildingId, Float buildingNumber) {
-
-        buildingTrigger.set(buildingId,buildingNumber);
-    }
-
-    public List<Float> getUpgradeTrigger() {
-        return upgradeTrigger;
-    }
-
-    public void setUpgradeTrigger(int upgradeId, Float upgradeNumber) {
-        upgradeTrigger.add(upgradeId, upgradeNumber);
-    }
 
     public int getBuildingId() {
         return buildingId;
@@ -125,6 +105,30 @@ public class NotificationEntity {
 
     public Float getUpgradeNumber() {
         return upgradeNumber;
+    }
+
+    public BuildingTriggerEntity getBuildingTrigger() {
+        return buildingTrigger;
+    }
+
+    public void setBuildingTrigger(BuildingTriggerEntity buildingTrigger) {
+        this.buildingTrigger = buildingTrigger;
+    }
+
+    public ResourceTriggerEntity getResourceTrigger() {
+        return resourceTrigger;
+    }
+
+    public void setResourceTrigger(ResourceTriggerEntity resourceTrigger) {
+        this.resourceTrigger = resourceTrigger;
+    }
+
+    public UpgradeTriggerEntity getUpgradeTrigger() {
+        return upgradeTrigger;
+    }
+
+    public void setUpgradeTrigger(UpgradeTriggerEntity upgradeTrigger) {
+        this.upgradeTrigger = upgradeTrigger;
     }
 
     public void setUpgradeNumber(Float upgradeNumber) {
