@@ -24,7 +24,7 @@ public class CardDaoImpl implements CardDao {
             " SELECT c.id card_id, c.name, c.description desc " +
                     " FROM Card c " +
                     " LEFT JOIN Card_Product cp ON c.id = cp.card_id " +
-                    " ORDER BY c.id;";
+                    " ORDER BY card_id;";
 
     private static final String QUERY_GROUP =
             "SELECT cp.card_id, cg.name, cg.description desc " +
@@ -61,53 +61,53 @@ public class CardDaoImpl implements CardDao {
     public List<CardEntity> getAllCardList() {
         return SqlHelper.createStatement(statment -> {
             ResultSet resultCards = statment.executeQuery(QUERY_CARD);
-            List<CardEntity> cards = fillCards(resultCards);//create main collection Cards
+            List<CardEntity> cardList = fillCards(resultCards);//create main collection Cards
             ResultSet resultGroups = statment.executeQuery(QUERY_GROUP);
-            List<CardGroupEntity> groups = fillGroups(resultGroups);
+            List<CardGroupEntity> groupList = fillGroups(resultGroups);
             ResultSet resultResources = statment.executeQuery(QUERY_RESOURCE);
             //create collection CardProducts objects and fill its HashMaps Resources
-            List<CardProductEntity> products = queryProcessResource(resultResources);
+            List<CardProductEntity> productList = queryProcessResource(resultResources);
             ResultSet resultBuildings = statment.executeQuery(QUERY_BUILDING);
             //only match collection CardProducts HashMaps Buildings
             CardDaoImpl cdi = new CardDaoImpl();
-            queryProcess(resultBuildings, products, cdi::matchBuildingsToProducts);
+            queryProcess(resultBuildings, productList, cdi::matchBuildingsToProducts);
             ResultSet resultUpgrades = statment.executeQuery(QUERY_UPGRADE);
             //only match collection CardProducts HashMaps Upgrades
-            queryProcess(resultUpgrades, products, cdi::matchUpgradesToProducts);
-            matchGroupToCards(cards, groups);
-            matchProductToCards(cards, products);
-            return cards;
+            queryProcess(resultUpgrades, productList, cdi::matchUpgradesToProducts);
+            matchGroupToCards(cardList, groupList);
+            matchProductToCards(cardList, productList);
+            return cardList;
         });
     }
 
     private List<CardEntity> fillCards(ResultSet resl) throws SQLException {
-        List<CardEntity> cardSet = new ArrayList<>();
+        List<CardEntity> cardList = new ArrayList<>();
         while (resl.next()) {
-            cardSet.add(new CardEntity() {{
+            cardList.add(new CardEntity() {{
                 setCardId(resl.getInt("card_id"));
                 setName(resl.getString("name"));
                 setDescription(resl.getString("desc"));
             }});
         }
-        return cardSet;
+        return cardList;
     }
 
     private List<CardGroupEntity> fillGroups(ResultSet resl) throws SQLException {
-        List<CardGroupEntity> groupSet = new ArrayList<>();
+        List<CardGroupEntity> groupList = new ArrayList<>();
         while (resl.next()) {
-            groupSet.add(new CardGroupEntity() {{
+            groupList.add(new CardGroupEntity() {{
                 setCardId(resl.getInt("card_id"));
                 setName(resl.getString("name"));
-                setDescription(resl.getString("description"));
+                setDescription(resl.getString("desc"));
             }});
         }
-        return groupSet;
+        return groupList;
     }
 
     private void matchGroupToCards(List<CardEntity> cards, List<CardGroupEntity> groupSet) {
         cards.forEach((CardEntity) -> {
             groupSet.forEach((CardGroupEntity) -> {
-                if (CardGroupEntity.getCardId() == CardEntity.getCardId()) {
+                if (CardGroupEntity.getCardId().equals(CardEntity.getCardId())) {
                     CardEntity.setGroup(CardGroupEntity);
                 }
             });
@@ -117,7 +117,7 @@ public class CardDaoImpl implements CardDao {
     private void matchProductToCards(List<CardEntity> cards, List<CardProductEntity> productSet) {
         cards.forEach((CardEntity) -> {
             productSet.forEach((CardProductEntity) -> {
-                if (CardProductEntity.getCardId() == CardEntity.getCardId()) {
+                if (CardProductEntity.getCardId().equals(CardEntity.getCardId())) {
                     CardEntity.setProduct(CardProductEntity);
                 }
             });
@@ -125,13 +125,13 @@ public class CardDaoImpl implements CardDao {
     }
 
     private List<CardProductEntity> queryProcessResource(ResultSet resl) throws SQLException {
-        List<CardProductEntity> productSet = new ArrayList<>();
+        List<CardProductEntity> productList = new ArrayList<>();
         Map<Integer, Float> player1Map = null;
         Map<Integer, Float> player2Map = null;
         Integer curentId = 1;
         while (resl.next()) {
             if (curentId != resl.getInt("card_id")) {
-                productSet.add(fillProductResources(curentId, player1Map, player2Map));
+                productList.add(fillProductResources(curentId, player1Map, player2Map));
             }
             if (player1Map == null || curentId != resl.getInt("card_id")) {
                 player1Map = new HashMap<>();
@@ -144,18 +144,18 @@ public class CardDaoImpl implements CardDao {
 
             curentId = resl.getInt("card_id");
         }
-        productSet.add(fillProductResources(curentId, player1Map, player2Map));
-        return productSet;
+        productList.add(fillProductResources(curentId, player1Map, player2Map));
+        return productList;
     }
 
-    private void queryProcess(ResultSet resl, List<CardProductEntity> productSet, Matching mP) throws SQLException {
+    private void queryProcess(ResultSet resl, List<CardProductEntity> productList, Matching mP) throws SQLException {
         Map<Integer, Float> player1Map = null;
         Map<Integer, Float> player2Map = null;
         Map<Integer, Float> necessaryMap = null;
         Integer curentId = 1;
         while (resl.next()) {
             if (curentId != resl.getInt("card_id")) {
-                mP.matchToProducts(curentId, player1Map, player2Map, necessaryMap, productSet);
+                mP.matchToProducts(curentId, player1Map, player2Map, necessaryMap, productList);
             }
 
             if (player1Map == null || curentId != resl.getInt("card_id")) {
@@ -175,24 +175,24 @@ public class CardDaoImpl implements CardDao {
 
             curentId = resl.getInt("card_id");
         }
-        mP.matchToProducts(curentId, player1Map, player2Map, necessaryMap, productSet);
+        mP.matchToProducts(curentId, player1Map, player2Map, necessaryMap, productList);
     }
 
 
 
     private CardProductEntity fillProductResources(Integer id, Map<Integer, Float> player1, Map<Integer, Float> player2) {
-        CardProductEntity cardProduct = new CardProductEntity() {{
+        CardProductEntity productList = new CardProductEntity() {{
             setCardId(id);
             setP1Resources(player1);
             setP2Resources(player2);
         }};
-        return cardProduct;
+        return productList;
     }
 
     private void matchBuildingsToProducts(Integer id, Map<Integer, Float> player1, Map<Integer, Float> player2,
-                                                 Map<Integer, Float> necessary, List<CardProductEntity> cardProductExmp) {
-        cardProductExmp.forEach((CardProductEntity) -> {
-            if (CardProductEntity.getCardId() == id) {
+                                                 Map<Integer, Float> necessary, List<CardProductEntity> productList) {
+        productList.forEach((CardProductEntity) -> {
+            if (CardProductEntity.getCardId().equals(id)) {
                 CardProductEntity.setP1Buildings(player1);
                 CardProductEntity.setP2Buildings(player2);
                 CardProductEntity.setNecessaryBuildings(necessary);
@@ -201,9 +201,9 @@ public class CardDaoImpl implements CardDao {
     }
 
     private void matchUpgradesToProducts(Integer id, Map<Integer, Float> player1, Map<Integer, Float> player2,
-                                         Map<Integer, Float> necessary, List<CardProductEntity> cardProductExmp) {
-        cardProductExmp.forEach((CardProductEntity) -> {
-            if (CardProductEntity.getCardId() == id) {
+                                         Map<Integer, Float> necessary, List<CardProductEntity> productList) {
+        productList.forEach((CardProductEntity) -> {
+            if (CardProductEntity.getCardId().equals(id)) {
                 CardProductEntity.setP1Upgrades(player1);
                 CardProductEntity.setP2Upgrades(player2);
                 CardProductEntity.setNecessaryUpgrades(necessary);
