@@ -6,8 +6,7 @@ public class BuildingEntity {
     private Integer id;
     private String name;
     private String description;
-    private Map<ResourceEntity,Float> resource;
-
+    private Map<Integer,Float> resource;
 
     public Integer getId() {
         return id;
@@ -33,11 +32,11 @@ public class BuildingEntity {
         this.description = description;
     }
 
-    public Map<ResourceEntity, Float> getResource() {
+    public Map<Integer, Float> getResource() {
         return resource;
     }
 
-    public void setResource(Map<ResourceEntity, Float> resource) {
+    public void setResource(Map<Integer, Float> resource) {
         this.resource = resource;
     }
 
