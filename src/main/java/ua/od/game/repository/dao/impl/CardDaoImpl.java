@@ -21,13 +21,13 @@ import java.util.Map;
 public class CardDaoImpl implements CardDao {
 
     private static final String QUERY_CARD =
-            " SELECT c.id card_id, c.name, c.description desc " +
+            " SELECT c.id card_id, c.name, c.description " +
                     " FROM Card c " +
                     " LEFT JOIN Card_Product cp ON c.id = cp.card_id " +
                     " ORDER BY card_id;";
 
     private static final String QUERY_GROUP =
-            "SELECT cp.card_id, cg.name, cg.description desc " +
+            "SELECT cp.card_id, cg.name, cg.description " +
                     " FROM Card_Product cp " +
                     " LEFT JOIN Card_Group cg ON cp.card_group_id = cg.id;";
 
@@ -86,7 +86,7 @@ public class CardDaoImpl implements CardDao {
             cardList.add(new CardEntity() {{
                 setCardId(resl.getInt("card_id"));
                 setName(resl.getString("name"));
-                setDescription(resl.getString("desc"));
+                setDescription(resl.getString("description"));
             }});
         }
         return cardList;
@@ -98,7 +98,7 @@ public class CardDaoImpl implements CardDao {
             groupList.add(new CardGroupEntity() {{
                 setCardId(resl.getInt("card_id"));
                 setName(resl.getString("name"));
-                setDescription(resl.getString("desc"));
+                setDescription(resl.getString("description"));
             }});
         }
         return groupList;
