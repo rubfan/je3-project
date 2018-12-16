@@ -1,4 +1,4 @@
-INSERT INTO `upgrade`
+INSERT INTO `Upgrade`
     (`id`, `name`,`description`)
 VALUES
     ('1', 'Upgrade Granary', 'The most mysterious building. It makes food from nothing.'),
@@ -30,4 +30,4 @@ VALUES
     ('27', 'New armor', 'Produce cocks prophets'),
     ('28', 'Steel feathers', 'Produce cocks prophets'),
     ('29', 'Armed and dangerous', 'Produce cocks prophets'),
-    ('30', 'Disney Princess? Really?', 'Produce cocks prophets')
+    ('30', 'Disney Princess? Really?', 'Produce cocks prophets');

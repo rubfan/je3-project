@@ -1,4 +1,4 @@
-INSERT INTO `resource`
+INSERT INTO `Resource`
     (`id`, `name`, `description`)
 VALUES
     ('1', 'corn','Money, ideals, religion - all does not matter. Without food you are dead.'),
