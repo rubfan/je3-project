@@ -1,18 +1,14 @@
-package ua.od.game.model;
+package ua.od.game.model.card;
 
-import java.util.List;
 import java.util.Map;
 
-/**@author Mazovskiy Mihail
+/**
+ * @author DemianSH
  **/
 
-public class CardEntity {
+public class CardProductEntity {
 
-    private Integer id;
-    private Integer cardId;
-    private Integer groupId;
-    private String name;
-    private String description;
+    Integer cardId;
     private Map<Integer, Float> p1Buildings;
     private Map<Integer, Float> p2Buildings;
     private Map<Integer, Float> p1Resources;
@@ -22,13 +18,7 @@ public class CardEntity {
     private Map<Integer, Float> necessaryBuildings;
     private Map<Integer, Float> necessaryUpgrades;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public CardProductEntity(){}
 
     public Integer getCardId() {
         return cardId;
@@ -36,30 +26,6 @@ public class CardEntity {
 
     public void setCardId(Integer cardId) {
         this.cardId = cardId;
-    }
-
-    public Integer getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Map<Integer, Float> getP1Buildings() {
