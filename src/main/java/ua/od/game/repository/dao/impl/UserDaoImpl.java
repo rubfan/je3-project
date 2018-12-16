@@ -4,34 +4,28 @@ import ua.od.game.model.UserEntity;
 import ua.od.game.repository.dao.UserDao;
 import ua.od.game.repository.helper.SqlHelper;
 import java.sql.ResultSet;
+import java.util.logging.Logger;
+
 
 public class UserDaoImpl implements UserDao {
+
+    Logger log = Logger.getLogger(UserDaoImpl .class.getName());
 
     @Override
     public String createNewUser(UserEntity user){
         String token = null;
-        int countUser = 0;
-
-        countUser = SqlHelper.prepareStatement("SELECT count(*) from User where name = ?", pstmt -> {
-            pstmt.setString(1, user.getName());
-            ResultSet rs = pstmt.executeQuery();
-            return rs.next() ? rs.getInt("count(*)") : 0;
-        });
-        if(countUser > 0) {
-            try {
-                throw new Exception("This user already exists!!!!");
-            } catch (Exception e) {
-                System.out.println(e.toString());
-                return "";
-            }
-        }
+        Integer create;
         token = user.getToken();
-        SqlHelper.prepareStatement("INSERT INTO User(name, password, token) values(?,?,?)", pstmt -> {
+        create = SqlHelper.prepareStatement("INSERT INTO User(name, password, token) values(?,?,?)", pstmt -> {
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getPassword());
             pstmt.setString(3, user.getToken());
             return pstmt.executeUpdate();
         });
+        if(create == 0) {
+            token = null;
+            log.warning("This user already exists!!!!");
+        }
         return token;
     }
 
@@ -47,12 +41,7 @@ public class UserDaoImpl implements UserDao {
             return pstmt.executeUpdate() > 0 ? user.getToken() : "";
         });
         if(token.isEmpty()) {
-            try {
-                throw new Exception("This user does not exists!!!!");
-            } catch (Exception e) {
-                System.out.println(e.toString());
-                return "";
-            }
+            log.warning("This user does not exists!!!!");
         }
         return token;
     }
@@ -66,11 +55,7 @@ public class UserDaoImpl implements UserDao {
             return pstmt.executeUpdate() > 0;
         });
         if(!logout) {
-            try {
-                throw new Exception("This token is wrong!!!!");
-            } catch (Exception e) {
-                System.out.println(e.toString());
-            }
+            log.warning("This token is wrong!!!!");
         }
         return logout;
     }
@@ -90,18 +75,13 @@ public class UserDaoImpl implements UserDao {
             }} : null;
             });
         if(user == null) {
-            try {
-                throw new Exception("Wrong token!!!!!");
-            } catch (Exception e) {
-                System.out.println(e.toString());
-            }
+            log.warning("Wrong token!!!!!");
         }
        return user;
   }
 
     @Override
     public UserEntity getUserById(Integer userId) {
-
         UserEntity user = null;
 
         user = SqlHelper.prepareStatement("SELECT * from User where id = ?", pstmt -> {
@@ -115,11 +95,7 @@ public class UserDaoImpl implements UserDao {
             }} : null;
         });
         if(user == null) {
-            try {
-                throw new Exception("Wrong user Id!!!!!");
-            } catch (Exception e) {
-                System.out.println(e.toString());
-            }
+            log.warning("Wrong user Id!!!!!");
         }
         return user;
     }
